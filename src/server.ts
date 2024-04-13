@@ -1,5 +1,5 @@
-function imprimir(mensagem: string) {
-  console.log(mensagem);
+function imprimir(mensagem: string): void {
+    console.log(mensagem)
 }
 
-imprimir("Olá mundo!");
+imprimir('Olá mundo!')

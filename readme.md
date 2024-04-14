@@ -2,6 +2,7 @@
 
 ## funcionalidades
 - [x] login
+- [x] buscar dentista por id, rota: /dentista/dentistaId
 - [] signup
 
 ### 📋 Pré-requisitos

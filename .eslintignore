@@ -1,4 +1,4 @@
 node_modules
 .husky
 coverage
-.prisma
+prisma/seed.ts

@@ -20,6 +20,9 @@
  # instalar as dependencias do projeto
     npm install
 
+  # instalar as dependencias do projeto
+    npx prisma migrate dev
+
  # Rodar aplicativo
     npm run dev
 

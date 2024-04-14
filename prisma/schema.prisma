@@ -31,3 +31,14 @@ model Usuario {
   pacienteId Int
   paciente   Paciente @relation(fields: [pacienteId], references: [id])
 }
+
+model Dentista {
+  id                Int    @id @default(autoincrement())
+  nome              String
+  especialidade     String
+  NCarteira         String
+  status            String
+  semanaAtendimento String
+  horaStart         Int
+  horaEnd           Int
+}

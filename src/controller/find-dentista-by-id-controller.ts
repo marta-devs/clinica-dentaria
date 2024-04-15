@@ -1,4 +1,4 @@
-import { findDentistaByIdRepository } from 'database/patiente-respository'
+import { findDentistaByIdRepository } from 'database/dentista-respository'
 import { type Request, type Response } from 'express'
 import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
 import z from 'zod'

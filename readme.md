@@ -1,8 +1,9 @@
 # Clinica Dentária - API
 
 ## funcionalidades
-- [x] login
-- [x] buscar dentista por id, rota: /dentista/dentistaId
+- [x] login, metodo:POST e url: localhost:3333/login
+- [x] buscar dentista por id, metodo:GET, para ser implementado assim url: localhost:3333/dentistas/${id_dentista}
+- [x] buscar dentista por nome metodo:GET, para ser implementado assim url: localhost:3333/dentistas?nome=${nome}
 - [] signup
 
 ### 📋 Pré-requisitos

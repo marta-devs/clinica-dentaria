@@ -1,4 +1,4 @@
-import { findTiposDeConsultaAllController } from '../controller/find-tipo-consulta-all-controller'
+import { findTiposDeConsultaAllController } from '../controller/tipo-consulta-controller/find-tipo-consulta-all-controller'
 import { Router } from 'express'
 
 const routes = Router()

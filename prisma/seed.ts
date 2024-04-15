@@ -4,13 +4,13 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient()
 
 const tiposDeConsulta = [
-  { tipo_consulta: 'Limpeza e profilaxia', preco: 8000 },
-  { tipo_consulta: 'Exames e radiografias:', preco: 15000 },
-  { tipo_consulta: 'Restaurações estéticas', preco: 8000 },
-  { tipo_consulta: 'Cirurgia oral', preco: 8000 },
-  { tipo_consulta: 'implantes dentários', preco: 8000 },
-  { tipo_consulta: 'Odontopediatria', preco: 8000 },
-  { tipo_consulta: 'Obturações', preco: 8000 },
+  { tipo_consulta: 'Limpeza e profilaxia', preco: 8000, desconto: 0 },
+  { tipo_consulta: 'Exames e radiografias:', preco: 15000, desconto: 0 },
+  { tipo_consulta: 'Restaurações estéticas', preco: 8000, desconto: 0 },
+  { tipo_consulta: 'Cirurgia oral', preco: 8000, desconto: 0 },
+  { tipo_consulta: 'implantes dentários', preco: 8000, desconto: 0 },
+  { tipo_consulta: 'Odontopediatria', preco: 8000, desconto: 0 },
+  { tipo_consulta: 'Obturações', preco: 8000, desconto: 0 },
 ]
 
 const createFakePacientes = Array.from({ length: 6 }).forEach(async (_, index) => {
@@ -50,15 +50,6 @@ const createFakeDentistas = Array.from({ length: 7 }).forEach(async (_, index) =
   })
 })
 
-const createFakeTipoConsulta = tiposDeConsulta.forEach(async (tipoConsulta) => {
-  await prisma.tipo_consulta.create({
-    data: {
-      ...tipoConsulta,
-      desconto: 0
-    }
-  })
-})
-
 async function main() {
   await Promise.all([
     createFakePacientes,
@@ -66,7 +57,9 @@ async function main() {
     createFakeUsuarios,
   ])
 
-  await createFakeTipoConsulta
+  await prisma.tipo_consulta.createMany({
+    data: tiposDeConsulta
+  })
 
 }
 

@@ -3,7 +3,20 @@ import { type Request, type Response } from 'express'
 import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
 import z from 'zod'
 
-const loginSchema = z.object({
+const nomeAndSenhaSchema = z.object({
+  nome: z
+    .string({
+      required_error: 'Parametro nome não passado',
+    })
+    .min(1, { message: 'Nome vazio' }),
+  senha: z
+    .string({
+      required_error: 'Parametro senha não passado',
+    })
+    .min(1, { message: 'senha vazia' }),
+})
+
+const EmailAndSenhaSchema = z.object({
   email: z
     .string({
       required_error: 'Parametro email não passado',
@@ -17,6 +30,8 @@ const loginSchema = z.object({
     .min(1, { message: 'senha vazia' }),
 })
 
+const loginSchema = z.union([nomeAndSenhaSchema, EmailAndSenhaSchema])
+
 export async function loginController(request: Request, response: Response) {
   try {
     const isValido = loginSchema.safeParse(request.body)
@@ -26,20 +41,20 @@ export async function loginController(request: Request, response: Response) {
       return response.status(403).json(messageError)
     }
 
-    const { email, senha } = request.body
+    const usuario = request.body
 
-    const usuario = await loadByEmail(email)
+    const newUsuario = await loadByEmail(usuario.email, usuario.nome)
 
-    if (!usuario) {
+    if (!newUsuario) {
       return response
         .status(401)
         .json({ mensagem: 'usuario não existe no banco de dados' })
     }
 
-    if (senha !== usuario.senha)
+    if (usuario.senha !== newUsuario.senha) {
       return response.json({ mensagem: 'Senha errada' })
-
-    return response.json({ id: usuario.id })
+    }
+    return response.json({ id: newUsuario.id })
   } catch (error) {
     return response.status(500).json(error)
   }

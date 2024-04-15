@@ -1,11 +1,12 @@
-# Clinica Dentária - API
+![](/public/clinica-dentologica.png)
 
-## routas
-- [x] <span style="color:skyblue">POST</span>: localhost:3333/login
-- [x] <span style="color:tomato">GET</span>: localhost:3333/dentistas/${id_dentista}
-- [x] <span style="color:tomato">GET</span>: localhost:3333/dentistas?nome=${nome}
-- [x] <span style="color:tomato">GET</span>: localhost:3333/dentistas/todos
-- [x] <span style="color:tomato">GET</span>: localhost:3333/tiposConsulta/todos
+## rotas
+
+- [x] POST: localhost:3333/login
+- [x] GET: localhost:3333/dentistas/${id_dentista}
+- [x] GET: localhost:3333/dentistas?nome=${nome}
+- [x] GET: localhost:3333/dentistas/todos
+- [x] GET: localhost:3333/tiposConsulta/todos
 - [] signup
 
 ### 📋 Pré-requisitos

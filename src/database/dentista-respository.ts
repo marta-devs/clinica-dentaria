@@ -39,3 +39,17 @@ export async function findDentistaByNomeRepository(
     }
   }) as Dentista[]
 }
+
+export async function findDentistaAllRepository(
+  nome: string = ''
+): Promise<Dentista[]> {
+  const dentistas = await prisma.dentista.findMany()
+
+  return dentistas.map((dentista) => {
+    return {
+      ...dentista,
+      horaStart: convertHourMinutesToHourString(dentista?.horaStart),
+      horaEnd: convertHourMinutesToHourString(dentista?.horaEnd),
+    }
+  }) as Dentista[]
+}

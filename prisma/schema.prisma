@@ -42,3 +42,10 @@ model Dentista {
   horaStart         Int
   horaEnd           Int
 }
+
+model Tipo_consulta {
+  id            Int    @id @default(autoincrement())
+  tipo_consulta String
+  preco         Float
+  desconto      Float
+}

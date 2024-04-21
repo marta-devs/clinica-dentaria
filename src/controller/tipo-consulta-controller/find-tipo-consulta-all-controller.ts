@@ -6,9 +6,9 @@ export async function findTiposDeConsultaAllController(
   response: Response
 ) {
   try {
-    const tiposdeConsulta = await findTipoConsultaAllRepository()
+    const tiposDeConsulta = await findTipoConsultaAllRepository()
 
-    return response.json(tiposdeConsulta)
+    return response.json(tiposDeConsulta)
   } catch (error) {
     return response.status(500).json(error)
   }

@@ -22,3 +22,13 @@ export async function loadByEmail(
 
   return usuario
 }
+
+export async function findPacienteByUsuarioId(usuarioId: string) {
+  const usuario = await prisma.usuario.findUnique({
+    where: {
+      id: usuarioId,
+    },
+  })
+
+  return usuario
+}

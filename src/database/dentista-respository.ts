@@ -2,22 +2,14 @@ import { convertHourMinutesToHourString } from 'utils/convert-minutes-to-hour-st
 import { type Dentista } from '../model/dentista'
 import { prisma } from './connection'
 
-export async function findDentistaByIdRepository(
-  dentistaId: number
-): Promise<Dentista | null> {
+export async function findDentistaByIdRepository(dentistaId: number) {
   const dentista = await prisma.dentista.findUnique({
     where: {
       id: dentistaId,
     },
   })
 
-  if (!dentista) return null
-
-  return {
-    ...dentista,
-    horaStart: convertHourMinutesToHourString(dentista?.horaStart),
-    horaEnd: convertHourMinutesToHourString(dentista?.horaEnd),
-  }
+  return dentista
 }
 
 export async function findDentistaByNomeRepository(

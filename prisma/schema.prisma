@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Paciente {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   nome      String
   data_nasc String
   sexo      String
@@ -22,6 +22,7 @@ model Paciente {
   email     String
   endereco  String
   Usuario   Usuario[]
+  Consulta  Consulta[]
 }
 
 model Usuario {
@@ -33,7 +34,7 @@ model Usuario {
 }
 
 model Dentista {
-  id                Int    @id @default(autoincrement())
+  id                Int        @id @default(autoincrement())
   nome              String
   especialidade     String
   NCarteira         String
@@ -41,11 +42,33 @@ model Dentista {
   semanaAtendimento String
   horaStart         Int
   horaEnd           Int
+  Consulta          Consulta[]
 }
 
 model Tipo_consulta {
-  id            Int    @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   tipo_consulta String
   preco         Float
   desconto      Float
+  Consulta      Consulta[]
+}
+
+model Consulta {
+  id Int @id @default(autoincrement())
+
+  status        String
+  observado     String @default("")
+  hora_consulta Int
+  data_consulta String
+
+  pacienteId      Int
+  dentistaId      Int
+  tipo_consultaId Int
+
+  paciente      Paciente      @relation(fields: [pacienteId], references: [id])
+  dentista      Dentista      @relation(fields: [dentistaId], references: [id])
+  tipo_consulta Tipo_consulta @relation(fields: [tipo_consultaId], references: [id])
+
+  data_criacao   DateTime @default(now())
+  data_alteracao DateTime @updatedAt
 }

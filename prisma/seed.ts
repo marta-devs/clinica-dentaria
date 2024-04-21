@@ -13,7 +13,11 @@ const tiposDeConsulta = [
   { tipo_consulta: 'Obturações', preco: 8000, desconto: 0 },
 ]
 
-const createFakePacientes = Array.from({ length: 6 }).forEach(async (_, index) => {
+// primeiro valor equivale: 8horas primeiro turno, segundo valor equivale: 15horas segundo turno.
+const horaExpediente = [480, 900]
+const CARGAHORARIA = 420 // 7 HORAS
+
+const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async (_, index) => {
   await prisma.paciente.create({
     data: {
       nome: faker.internet.displayName(),
@@ -24,9 +28,7 @@ const createFakePacientes = Array.from({ length: 6 }).forEach(async (_, index) =
       endereco: faker.location.city()
     }
   })
-})
 
-const createFakeUsuarios = Array.from({ length: 5 }).forEach(async (_, index) => {
   await prisma.usuario.create({
     data: {
       cargo: 'Paciente',
@@ -36,7 +38,18 @@ const createFakeUsuarios = Array.from({ length: 5 }).forEach(async (_, index) =>
   })
 })
 
-const createFakeDentistas = Array.from({ length: 7 }).forEach(async (_, index) => {
+const createFakeUsuarios = (): void => Array.from({ length: 5 }).forEach(async (_, index) => {
+  await prisma.usuario.create({
+    data: {
+      cargo: 'Paciente',
+      senha: faker.internet.password(),
+      pacienteId: index + 1
+    }
+  })
+  console.log(index)
+})
+
+const createFakeDentistas = (): void => Array.from({ length: 7 }).forEach(async (_, index) => {
   await prisma.dentista.create({
     data: {
       nome: faker.internet.userName(),
@@ -44,17 +57,16 @@ const createFakeDentistas = Array.from({ length: 7 }).forEach(async (_, index) =
       NCarteira: faker.string.numeric(13),
       status: index % 2 === 0 ? 'ativo' : 'desativo',
       semanaAtendimento: 'segunda, terça, quarta, quinta, sexta',
-      horaStart: Number(faker.string.numeric({ length: { min: 2, max: 3 } })),
-      horaEnd: Number(faker.string.numeric({ length: { min: 4, max: 5 } })),
+      horaStart: horaExpediente[index % 2],
+      horaEnd: horaExpediente[index % 2] * CARGAHORARIA,
     }
   })
 })
 
 async function main() {
   await Promise.all([
-    createFakePacientes,
-    createFakeDentistas,
-    createFakeUsuarios,
+    createFakePacientes(),
+    createFakeDentistas(),
   ])
 
   await prisma.tipo_consulta.createMany({

@@ -1,5 +1,6 @@
 import { findDentistaByIdRepository } from 'database/dentista-respository'
 import { type Request, type Response } from 'express'
+import { convertHourMinutesToHourString } from 'utils/convert-minutes-to-hour-string'
 import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
 import z from 'zod'
 
@@ -22,7 +23,12 @@ export async function findDentistaById(request: Request, response: Response) {
         .json('Esse dentista não existente no banco de dados')
     }
 
-    return response.json(dentista)
+    const newDentista = Object.assign(dentista, {
+      horaStart: convertHourMinutesToHourString(dentista.horaStart),
+      horaEnd: convertHourMinutesToHourString(dentista.horaStart),
+    })
+
+    return response.json(newDentista)
   } catch (error) {
     return response.status(500).json(error)
   }

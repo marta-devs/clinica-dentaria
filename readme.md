@@ -1,6 +1,10 @@
 ![](/public/clinica-dentologica.png)
 
+<p align='center'>🚧A Barber-Shop(API) 🚀 Em construção... 🚧</p>
+
 ## Descrição do projeto
+
+## Indices
 
 ## Rotas
 
@@ -9,6 +13,7 @@
 - [x] GET: localhost:3333/dentistas?nome=${nome}
 - [x] GET: localhost:3333/dentistas/todos
 - [x] GET: localhost:3333/tiposConsulta/todos
+- [x] POST: localhost:3333/consulta
 - [] signup
 
 ### 📋 Pré-requisitos
@@ -48,3 +53,12 @@
     git push o main
 
 ```
+## Contribuidores
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT [licença](#).
+
+## 🎁 Expressões de gratidão
+
+Convidou Todas a gente que gostou desse projeto tanto nos aspeto de tecnologia ou a ideias do projeto para contribuir esse projeto afim de dar passo maior.

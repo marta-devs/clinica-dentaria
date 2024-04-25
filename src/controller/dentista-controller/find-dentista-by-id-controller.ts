@@ -13,7 +13,7 @@ export async function findDentistaById(request: Request, response: Response) {
 
     if (!isValido.success) {
       const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json(messageError)
+      return response.status(403).json({ mensagem: messageError })
     }
     const dentista = await findDentistaByIdRepository(id)
 

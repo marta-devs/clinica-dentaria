@@ -19,7 +19,7 @@ export async function findDentistasByNome(
 
     if (!isValido.success) {
       const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json(messageError)
+      return response.status(403).json({ mensagem: messageError })
     }
 
     const dentistas = await findDentistaByNomeRepository(nome)

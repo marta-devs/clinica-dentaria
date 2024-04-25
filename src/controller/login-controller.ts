@@ -8,12 +8,12 @@ const nomeAndSenhaSchema = z.object({
     .string({
       required_error: 'Parametro nome não passado',
     })
-    .min(1, { message: 'Nome vazio' }),
+    .min(1, { message: 'Parametro nome está vazio' }),
   senha: z
     .string({
       required_error: 'Parametro senha não passado',
     })
-    .min(1, { message: 'senha vazia' }),
+    .min(1, { message: 'Parametro senha está vazio' }),
 })
 
 const EmailAndSenhaSchema = z.object({
@@ -38,7 +38,7 @@ export async function loginController(request: Request, response: Response) {
 
     if (!isValido.success) {
       const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json(messageError)
+      return response.status(403).json({ mensagem: messageError })
     }
 
     const usuario = request.body
@@ -52,7 +52,7 @@ export async function loginController(request: Request, response: Response) {
     }
 
     if (usuario.senha !== newUsuario.senha) {
-      return response.json({ mensagem: 'Senha errada' })
+      return response.status(401).json({ mensagem: 'A senha está incorreta!' })
     }
     return response.json({ id: newUsuario.id })
   } catch (error) {

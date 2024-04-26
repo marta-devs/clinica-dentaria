@@ -31,6 +31,7 @@ model Usuario {
   senha      String
   pacienteId Int
   paciente   Paciente @relation(fields: [pacienteId], references: [id])
+  @@map("usuario")
 }
 
 model Dentista {

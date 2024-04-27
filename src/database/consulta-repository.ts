@@ -34,8 +34,7 @@ export async function findConsultaByDataConsultaRepository(
 }
 
 export async function addConsultaRepository(param: AddConsultaParam) {
-  console.log(param)
-  const consulta = await prisma.consulta.create({
+  await prisma.consulta.create({
     data: {
       status: 'AGENDADA',
       observado: param.observado,
@@ -46,8 +45,6 @@ export async function addConsultaRepository(param: AddConsultaParam) {
       tipo_consultaId: param.tipo_consultaId,
     },
   })
-
-  console.log(consulta)
 }
 
 export async function findConsultaById(consultaId: number) {

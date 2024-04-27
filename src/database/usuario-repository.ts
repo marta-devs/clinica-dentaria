@@ -1,10 +1,6 @@
-import { type Usuario } from '@prisma/client'
 import { prisma } from './connection'
 
-export async function loadByEmail(
-  email: string,
-  nome: string
-): Promise<Usuario | null> {
+export async function loadByEmail(email: string, nome: string) {
   const usuario = await prisma.usuario.findFirst({
     where: {
       paciente: {

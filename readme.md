@@ -14,7 +14,8 @@
 - [x] GET: localhost:3333/dentistas/todos
 - [x] GET: localhost:3333/tiposConsulta/todos
 - [x] POST: localhost:3333/consulta
-- [] signup
+- [x] POST: localhost:3333/consulta/reagendar
+- [ ] Post: signup
 
 ### 📋 Pré-requisitos
 

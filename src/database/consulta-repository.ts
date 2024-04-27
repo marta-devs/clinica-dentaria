@@ -1,12 +1,19 @@
 import { prisma } from './connection'
 
-export interface ConsultaParam {
+export interface AddConsultaParam {
   observado: string
   hora_consulta: number
   data_consulta: string
   pacienteId: number
   dentistaId: number
   tipo_consultaId: number
+}
+
+export interface UpdateConsultaParam {
+  id: number
+  hora_consulta: number
+  data_consulta: string
+  dentistaId: number
 }
 
 export async function findConsultaByDataConsultaRepository(
@@ -26,7 +33,7 @@ export async function findConsultaByDataConsultaRepository(
   return consulta
 }
 
-export async function addConsultaRepository(param: ConsultaParam) {
+export async function addConsultaRepository(param: AddConsultaParam) {
   console.log(param)
   const consulta = await prisma.consulta.create({
     data: {
@@ -41,4 +48,27 @@ export async function addConsultaRepository(param: ConsultaParam) {
   })
 
   console.log(consulta)
+}
+
+export async function findConsultaById(consultaId: number) {
+  const consulta = await prisma.consulta.findUnique({
+    where: {
+      id: consultaId,
+    },
+  })
+
+  return consulta
+}
+
+export async function updateConsultaRepository(param: UpdateConsultaParam) {
+  await prisma.consulta.update({
+    where: {
+      id: param.id,
+    },
+    data: {
+      hora_consulta: param.hora_consulta,
+      data_consulta: param.data_consulta,
+      dentistaId: param.dentistaId,
+    },
+  })
 }

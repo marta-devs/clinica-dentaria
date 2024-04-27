@@ -6,7 +6,7 @@ import { findDentistaByIdRepository } from 'database/dentista-respository'
 import { findPacienteByUsuarioId } from 'database/usuario-repository'
 import { type Request, type Response } from 'express'
 import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute'
-import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
+import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
 
 const schema = z.object({
@@ -34,11 +34,10 @@ export async function addConsultaController(
 ) {
   try {
     const dataConsulta = request.body
-    const isValido = schema.safeParse(dataConsulta)
+    const isValidate = zodValidation(schema, dataConsulta)
 
-    if (!isValido.success) {
-      const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json({ mensagem: messageError })
+    if (isValidate) {
+      return response.status(403).json({ mensagem: isValidate })
     }
 
     const horaConsultaInFormatNumber = convertHourStringToMinute(

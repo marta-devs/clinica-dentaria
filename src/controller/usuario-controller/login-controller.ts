@@ -1,6 +1,6 @@
 import { loadByEmail } from 'database/usuario-repository'
 import { type Request, type Response } from 'express'
-import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
+import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
 
 const nomeAndSenhaSchema = z.object({
@@ -34,11 +34,10 @@ const loginSchema = z.union([nomeAndSenhaSchema, EmailAndSenhaSchema])
 
 export async function loginController(request: Request, response: Response) {
   try {
-    const isValido = loginSchema.safeParse(request.body)
+    const validate = zodValidation(loginSchema, request.body)
 
-    if (!isValido.success) {
-      const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json({ mensagem: messageError })
+    if (validate) {
+      return response.status(403).json({ mensagem: validate })
     }
 
     const usuario = request.body

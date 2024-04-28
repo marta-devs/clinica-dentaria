@@ -16,6 +16,7 @@ datasource db {
 model Paciente {
   id        Int        @id @default(autoincrement())
   nome      String
+  sobreNome String
   data_nasc String
   sexo      String
   telefone  String
@@ -23,6 +24,7 @@ model Paciente {
   endereco  String
   Usuario   Usuario[]
   Consulta  Consulta[]
+  @@map("pacienttes")
 }
 
 model Usuario {

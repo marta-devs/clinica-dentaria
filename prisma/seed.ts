@@ -21,6 +21,7 @@ const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async 
   await prisma.paciente.create({
     data: {
       nome: faker.internet.displayName(),
+      sobreNome: faker.internet.userName(),
       data_nasc: faker.date.past({ years: 10 }).toString(),
       sexo: index % 2 === 0 ? 'Femenino' : 'Masculino',
       telefone: faker.phone.number(),

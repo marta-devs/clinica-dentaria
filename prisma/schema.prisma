@@ -24,7 +24,6 @@ model Paciente {
   endereco  String
   Usuario   Usuario[]
   Consulta  Consulta[]
-  @@map("pacienttes")
 }
 
 model Usuario {
@@ -33,7 +32,6 @@ model Usuario {
   senha      String
   pacienteId Int
   paciente   Paciente @relation(fields: [pacienteId], references: [id])
-  @@map("usuario")
 }
 
 model Dentista {
@@ -60,7 +58,7 @@ model Consulta {
   id Int @id @default(autoincrement())
 
   status        String
-  observado     String @default("")
+  observado     String?
   hora_consulta Int
   data_consulta String
 

@@ -1,7 +1,7 @@
 export interface Paciente {
   nome: string
-  sobroNome: string
-  data_nasc: string
+  sobreNome: string
+  dataNasc: string
   sexo: string
   telefone: string
   email: string

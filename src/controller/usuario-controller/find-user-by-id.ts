@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { findPacienteByUsuarioId } from 'database/usuario-repository'
 import z from 'zod'
-import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
+import { zodValidation } from 'utils/zodValidation'
 
 const schema = z.string({ required_error: 'È obrigatório passar id na url' })
 
@@ -10,14 +10,13 @@ export async function FindUserByIdController(
   response: Response
 ) {
   const id = request.params.id
-  const isValido = schema.safeParse(id)
+  const isValidate = zodValidation(schema, id)
 
-  if (!isValido.success) {
-    const messageError = convertZodErrorInMessage(isValido)
-    return response.status(403).json({ mensagem: messageError })
+  if (isValidate) {
+    return response.status(403).json({ mensagem: isValidate })
   }
 
-  const user = await findPacienteByUsuarioId(isValido)
+  const user = await findPacienteByUsuarioId(id)
 
   return response.json(user)
 }

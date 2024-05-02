@@ -1,15 +1,16 @@
 import {
-  addConsultaRepository,
   findConsultaByDataConsultaRepository,
+  findConsultaById,
+  updateConsultaRepository,
 } from 'database/consulta-repository'
 import { findDentistaByIdRepository } from 'database/dentista-respository'
-import { findPacienteByUsuarioId } from 'database/usuario-repository'
 import { type Request, type Response } from 'express'
 import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute'
 import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
 
 const schema = z.object({
+  id: z.number({ required_error: 'O Parametro id é obrigatório' }),
   observado: z.string().optional(),
   hora_consulta: z
     .string({ required_error: 'O parametro hora_consulta é obrigatório' })
@@ -17,18 +18,12 @@ const schema = z.object({
   data_consulta: z
     .string({ required_error: 'O parametro data_consulta é obrigatório' })
     .min(1, { message: 'Preencha o campo data de consulta' }),
-  tipo_consultaId: z
-    .number({ required_error: 'O parametro tipo_consultaId é obrigatório' })
-    .int({ message: 'O campo tipo_consultaId deve ser inteiro' }),
-  usuarioId: z
-    .string({ required_error: 'O parametro usuarioId é obrigatório' })
-    .min(1, { message: 'O campo usuarioId deve ser preenchido' }),
   dentistaId: z
     .number({ required_error: 'O parametro dentistaId é obrigatório' })
     .int({ message: 'O campo dentistaId deve ser inteiro' }),
 })
 
-export async function addConsultaController(
+export async function reagendarConsultaController(
   request: Request,
   response: Response
 ) {
@@ -40,17 +35,25 @@ export async function addConsultaController(
       return response.status(403).json({ mensagem: isValidate })
     }
 
+    const oldConsulta = await findConsultaById(dataConsulta.id)
+
+    if (!oldConsulta) {
+      return response
+        .status(401)
+        .json({ mensagem: 'Essa consulta nunca foi feita' })
+    }
+
     const horaConsultaInFormatNumber = convertHourStringToMinute(
       dataConsulta.hora_consulta
     )
 
-    const oldConsulta = await findConsultaByDataConsultaRepository(
+    const oldConsultas = await findConsultaByDataConsultaRepository(
       dataConsulta.data_consulta,
       horaConsultaInFormatNumber
     )
 
-    if (oldConsulta) {
-      return response.status(401).json({ mensagem: 'Já foi feita consulta' })
+    if (oldConsultas) {
+      return response.status(401).json({ mensagem: 'Horario já preenchido' })
     }
 
     const dentista = await findDentistaByIdRepository(dataConsulta.dentistaId)
@@ -73,24 +76,14 @@ export async function addConsultaController(
       })
     }
 
-    const usuario = await findPacienteByUsuarioId(dataConsulta.usuarioId)
-
-    if (!usuario) {
-      return response.status(401).json({
-        mensagem: 'paciente não existe na base de dados',
-      })
-    }
-
-    await addConsultaRepository({
+    await updateConsultaRepository({
+      id: dataConsulta.id,
       data_consulta: dataConsulta.data_consulta,
       hora_consulta: horaConsultaInFormatNumber,
       dentistaId: dentista.id,
-      pacienteId: usuario.pacienteId,
-      observado: dataConsulta.observado,
-      tipo_consultaId: dataConsulta.tipo_consultaId,
     })
 
-    return response.json({ messagem: 'Agendado com sucesso!' })
+    return response.json({ mensagem: 'Reagendado com sucesso!' })
   } catch (error) {
     return response.status(500).json(error)
   }

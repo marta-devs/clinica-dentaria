@@ -1,6 +1,6 @@
 import { findDentistaByNomeRepository } from 'database/dentista-respository'
 import { type Request, type Response } from 'express'
-import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
+import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
 
 const schema = z
@@ -15,11 +15,10 @@ export async function findDentistasByNome(
 ) {
   try {
     const nome = request.query.nome?.toString()
-    const isValido = schema.safeParse(nome)
+    const isValidate = zodValidation(schema, nome)
 
-    if (!isValido.success) {
-      const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json({ mensagem: messageError })
+    if (isValidate) {
+      return response.status(403).json({ mensagem: isValidate })
     }
 
     const dentistas = await findDentistaByNomeRepository(nome)

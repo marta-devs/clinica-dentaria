@@ -1,7 +1,7 @@
 import { findDentistaByIdRepository } from 'database/dentista-respository'
 import { type Request, type Response } from 'express'
 import { convertHourMinutesToHourString } from 'utils/convert-minutes-to-hour-string'
-import { convertZodErrorInMessage } from 'utils/convert-zod-error-in-message'
+import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
 
 const schema = z.number({ required_error: 'È obrigatório passar id na url' })
@@ -9,12 +9,12 @@ const schema = z.number({ required_error: 'È obrigatório passar id na url' })
 export async function findDentistaById(request: Request, response: Response) {
   try {
     const id = Number(request.params.dentistaId)
-    const isValido = schema.safeParse(id)
+    const isValidate = zodValidation(schema, id)
 
-    if (!isValido.success) {
-      const messageError = convertZodErrorInMessage(isValido)
-      return response.status(403).json({ mensagem: messageError })
+    if (isValidate) {
+      return response.status(403).json({ mensagem: isValidate })
     }
+
     const dentista = await findDentistaByIdRepository(id)
 
     if (!dentista) {

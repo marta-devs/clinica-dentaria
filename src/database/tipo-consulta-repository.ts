@@ -1,7 +1,6 @@
 import { prisma } from './connection'
-import { type TipoConsulta } from 'model/tipo-consulta'
 
-export async function findTipoConsultaAllRepository(): Promise<TipoConsulta[]> {
+export async function findTipoConsultaAllRepository() {
   const tiposConsulta = await prisma.tipo_consulta.findMany()
   return tiposConsulta
 }

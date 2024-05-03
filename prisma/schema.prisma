@@ -14,16 +14,17 @@ datasource db {
 }
 
 model Paciente {
-  id        Int        @id @default(autoincrement())
-  nome      String
-  sobreNome String
-  data_nasc String
-  sexo      String
-  telefone  String
-  email     String
-  endereco  String
-  Usuario   Usuario[]
-  Consulta  Consulta[]
+  id            Int        @id @default(autoincrement())
+  nome          String
+  sobreNome     String
+  data_nasc     String
+  sexo          String
+  nacionalidade String
+  telefone      String     @unique
+  email         String     @unique
+  endereco      String
+  Usuario       Usuario[]
+  Consulta      Consulta[]
 }
 
 model Usuario {

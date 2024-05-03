@@ -6,6 +6,7 @@ export async function addPacienteRepository(
   sobreNome: string,
   dataNasc: string,
   sexo: string,
+  nacionalidade: string,
   telefone: string,
   email: string,
   endereco: string
@@ -16,6 +17,7 @@ export async function addPacienteRepository(
       sobreNome,
       data_nasc: dataNasc,
       sexo,
+      nacionalidade,
       telefone,
       email,
       endereco,

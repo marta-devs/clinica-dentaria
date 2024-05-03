@@ -24,6 +24,7 @@ const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async 
       sobreNome: faker.internet.userName(),
       data_nasc: faker.date.past({ years: 10 }).toString(),
       sexo: index % 2 === 0 ? 'Femenino' : 'Masculino',
+      nacionalidade: faker.location.country(),
       telefone: faker.phone.number(),
       email: faker.internet.email(),
       endereco: faker.location.city()

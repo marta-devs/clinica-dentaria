@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import { addPacienteRepository } from '../../database/paciente-repository'
+import { addPacienteRepository, findEmailAndTelefonePaciente } from '../../database/paciente-repository'
 import { z } from 'zod'
 
 
@@ -33,6 +33,17 @@ async function AddPacienteController(request: Request, response: Response) {
       })
     type NovoPaciente= z.infer<typeof Schema>
     const np : NovoPaciente = result.data
+
+    const findPaciente = await findEmailAndTelefonePaciente(email,telefone)
+    if( findPaciente?.email == np.email ){
+      return response.json({mensagem:'já existe um paciente com este email'})
+    }
+
+    if( findPaciente?.telefone == np.telefone ){
+      return response.json({mensagem:'já existe um paciente com este telefone'})
+    }
+
+
     const paciente = await addPacienteRepository(np.nome,np.sobreNome,np.data_nasc,np.sexo,np.nacionalidade,np.telefone,np.email, np.endereco)
     return response.json(paciente)
   } catch (error) {

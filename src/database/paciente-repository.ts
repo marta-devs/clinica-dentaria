@@ -10,7 +10,7 @@ export async function addPacienteRepository(
   telefone: string,
   email: string,
   endereco: string
-): Promise<Paciente | null> {
+){
   const paciente = await prisma.paciente.create({
     data: {
       nome,

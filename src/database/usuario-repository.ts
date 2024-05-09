@@ -28,3 +28,18 @@ export async function findPacienteByUsuarioId(usuarioId: string) {
 
   return usuario
 }
+
+export async function addCadastroSenhaUsuarioRepository (senha:string, cargo:string, pacienteId:number) {
+
+
+
+  const usuario = await prisma.usuario.create({
+    data:{
+      senha,
+      cargo,
+      pacienteId:1
+    }
+  })
+  
+ return usuario
+}

@@ -29,7 +29,7 @@ model Paciente {
 
 model Usuario {
   id         String   @id @default(uuid())
-  cargo      String
+  cargo      String   
   senha      String
   pacienteId Int
   paciente   Paciente @relation(fields: [pacienteId], references: [id])

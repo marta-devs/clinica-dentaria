@@ -45,7 +45,7 @@ async function AddPacienteController(request: Request, response: Response) {
 
 
     const paciente = await addPacienteRepository(np.nome,np.sobreNome,np.data_nasc,np.sexo,np.nacionalidade,np.telefone,np.email, np.endereco)
-    return response.json(paciente)
+    return response.json(paciente.id)
   } catch (error) {
     return response.status(500).json(error)
   }

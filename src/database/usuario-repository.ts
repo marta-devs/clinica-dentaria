@@ -21,6 +21,11 @@ export async function loadByEmail(email: string, nome: string) {
 
 export async function findPacienteByUsuarioId(usuarioId: string) {
   const usuario = await prisma.usuario.findUnique({
+  
+    include:{
+      paciente:true
+    },
+
     where: {
       id: usuarioId,
     },
@@ -29,15 +34,15 @@ export async function findPacienteByUsuarioId(usuarioId: string) {
   return usuario
 }
 
-export async function addCadastroSenhaUsuarioRepository (senha:string, cargo:string, pacienteId:number) {
+export async function addCadastroSenhaUsuarioRepository (senha:string, pacienteId:number) {
 
 
 
   const usuario = await prisma.usuario.create({
     data:{
       senha,
-      cargo,
-      pacienteId:1
+      cargo: "paciente",
+      pacienteId
     }
   })
   

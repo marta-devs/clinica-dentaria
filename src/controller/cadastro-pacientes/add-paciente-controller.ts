@@ -1,5 +1,6 @@
-import { type Request, type Response } from 'express'
-import { addPacienteRepository, findEmailAndTelefonePaciente } from '../../database/paciente-repository'
+import { response, type Request, type Response } from 'express'
+import { addPacienteRepository, findEmailAndTelefonePaciente, findPacienteByIdRepository } from '../../database/paciente-repository'
+import { addCadastroSenhaUsuarioRepository } from "../../database/usuario-repository";
 import { z } from 'zod'
 
 
@@ -18,7 +19,7 @@ const Schema = z.object({
 
 async function AddPacienteController(request: Request, response: Response) {
   try {
-    const { nome, sobreNome, data_nasc, sexo,nacionalidade, telefone, email, endereco } =
+    const { nome, sobreNome, data_nasc, sexo,nacionalidade, telefone, email, endereco,senha } =
       request.body
       
        const result =Schema.safeParse({
@@ -44,10 +45,25 @@ async function AddPacienteController(request: Request, response: Response) {
     }
 
 
-    const paciente = await addPacienteRepository(np.nome,np.sobreNome,np.data_nasc,np.sexo,np.nacionalidade,np.telefone,np.email, np.endereco)
-    return response.json(paciente.id)
+    const paciente = await addPacienteRepository(np.nome,np.sobreNome,np.data_nasc,np.sexo,np.nacionalidade,np.telefone,np.email, np.endereco,)
+    await addCadastroSenhaUsuarioRepository(senha, paciente.id)
+    return response.json(paciente)
   } catch (error) {
     return response.status(500).json(error)
   }
 }
-export { AddPacienteController }
+
+async function findPacienteByIdController(id:number) {
+
+ try{
+     
+  const findPaciente = await findPacienteByIdRepository(id)
+  return response.json(findPaciente)
+
+ }catch(err){
+    return response.status(500).json(err)
+ }
+  
+}
+
+export { AddPacienteController, findPacienteByIdController }

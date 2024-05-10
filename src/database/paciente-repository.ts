@@ -9,7 +9,7 @@ export async function addPacienteRepository(
   nacionalidade: string,
   telefone: string,
   email: string,
-  endereco: string
+  endereco: string,
 ){
   const paciente = await prisma.paciente.create({
     data: {
@@ -21,6 +21,7 @@ export async function addPacienteRepository(
       telefone,
       email,
       endereco,
+     
     },
   })
 
@@ -38,4 +39,27 @@ export async function  findEmailAndTelefonePaciente(email:string, telefone:strin
     }
   })
   return paciente
+}
+
+export async function  findPacienteByIdRepository (id:number) {
+
+
+  const paciente = await prisma.paciente.findFirst({
+    where:{
+      id
+    },
+    select:{
+      nome:true,
+      sobreNome:true,
+      data_nasc:true,
+      email:true,
+      nacionalidade:true,
+      sexo:true,
+      telefone:true,
+      endereco:true
+    }
+  })
+
+  return paciente
+  
 }

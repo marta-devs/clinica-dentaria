@@ -39,8 +39,11 @@ export async function findDentistaByNomeRepository(nome: string = '') {
   })
 }
 
-export async function findDentistaAllRepository() {
-  const dentistas = await prisma.dentista.findMany()
+export async function findDentistaAllRepository(page: number, limit: number) {
+  const dentistas = await prisma.dentista.findMany({
+    skip: page,
+    take: limit
+  })
 
   return dentistas.map((dentista) => {
     return {

@@ -6,7 +6,9 @@ export async function findDentistasAllController(
   response: Response
 ) {
   try {
-    const dentistas = await findDentistaAllRepository()
+    const page = Number(request.query.page)
+    const limit = Number(request.query.limit)
+    const dentistas = await findDentistaAllRepository(page, limit)
 
     return response.json(dentistas)
   } catch (error) {

@@ -66,6 +66,18 @@ export async function updateConsultaRepository(param: UpdateConsultaParam) {
       hora_consulta: param.hora_consulta,
       data_consulta: param.data_consulta,
       dentistaId: param.dentistaId,
+      status: 'AGENDADA'
+    },
+  })
+}
+
+export async function updateStatusParaCanceladoRepository(id: number) {
+  await prisma.consulta.update({
+    where: {
+      id,
+    },
+    data: {
+      status: 'CANCELADO'
     },
   })
 }

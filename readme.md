@@ -9,17 +9,32 @@
 ## Rotas
 
 - [x] POST: localhost:3333/login
+- [x] Post: signup
+
+### Rotas do dentistas
 - [x] GET: localhost:3333/dentistas/${id_dentista}
-- [x] GET: localhost:3333/dentistas?nome=${nome}
-- [x] GET: localhost:3333/dentistas/todos
-- [x] GET: localhost:3333/tiposConsulta/todos
+- [x] GET: localhost:3333/dentistas?filtro=${filtro}&page=${page}&limit=${limit}
+- [x] GET: localhost:3333/dentistas/todos?page=${page}&limit=${limit}
+- [x] PUT: localhost:3333/dentistas/${id_dentista}
+- [X] DELETE: localhost:3333/dentistas/${id_dentista}
+
+### Rotas do tipo de consulta ou serviço
+- [x] GET: localhost:3333/tiposConsulta/todos?filtro=${filtro}&page=${page}&limit=${limit}
+- [x] POST: localhost:3333/tiposConsulta
+- [X] PUT: localhost:3333/tiposConsulta/:${tiposConsulta_id}
+- [x] DELETE: localhost:3333/tiposConsulta/:tiposConsulta_id
+
+### Rotas de consultas
+
 - [x] POST: localhost:3333/consulta
 - [x] POST: localhost:3333/consulta/reagendar
 - [x] Get: localhost:3333/consulta/dentista_id/horas?data_escolhido=${data}
 - [x] Get: localhost:3333/consulta/:consulta_id/cancelar
 - [x] Get: localhost:3333/consulta/consultas?filtro=${filtro}&page=${page}&limit=${limit}
 - [x] GET: localhost.3333/consulta/:consulta_id
-- [ ] Post: signup
+
+### Rotas de consultas
+- [x] Get: localhost:3333/paciente/:${usuarioId}
 
 ### 📋 Pré-requisitos
 

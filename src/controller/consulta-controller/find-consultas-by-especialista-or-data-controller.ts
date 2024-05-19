@@ -10,7 +10,7 @@ export async function findConsultaByEspecialistaOrDataController(request: Reques
     const consultas = await findTodasConsultasRepository(page, limit)
 
     const consultasFiltradas = consultas.filter(consulta =>
-      consulta.dentista.nome.toLowerCase().startsWith(filtro?.toLocaleLowerCase())
+      consulta.dentista.nome.toLowerCase().startsWith(filtro?.toLowerCase())
       || consulta.data_consulta.toLowerCase().startsWith(filtro.toLowerCase())
       || consulta.dentista.especialidade.toLowerCase().startsWith(filtro.toLowerCase())
       || consulta.paciente.nome.toLowerCase().startsWith(filtro.toLowerCase())

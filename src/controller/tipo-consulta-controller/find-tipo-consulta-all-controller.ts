@@ -6,9 +6,17 @@ export async function findTiposDeConsultaAllController(
   response: Response
 ) {
   try {
-    const tiposDeConsulta = await findTipoConsultaAllRepository()
+    const filtro = request.query.filtro?.toString() || ''
+    const page = Number(request.query.page)
+    const limit = Number(request.query.limit)
 
-    return response.json(tiposDeConsulta)
+    const tiposDeConsulta = await findTipoConsultaAllRepository(page, limit)
+
+    const tiposConsultaFiltrado = tiposDeConsulta.filter(tipos =>
+      tipos.tipo_consulta.toLowerCase().startsWith(filtro?.toLowerCase())
+    )
+
+    return response.json(tiposConsultaFiltrado)
   } catch (error) {
     return response.status(500).json(error)
   }

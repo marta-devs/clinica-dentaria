@@ -1,7 +1,10 @@
 import { prisma } from './connection'
 
-export async function findTipoConsultaAllRepository() {
-  const tiposConsulta = await prisma.tipo_consulta.findMany()
+export async function findTipoConsultaAllRepository(page: number, limit: number) {
+  const tiposConsulta = await prisma.tipo_consulta.findMany({
+    skip: page,
+    take: limit
+  })
   return tiposConsulta
 }
 

@@ -42,7 +42,7 @@ export async function loginController(request: Request, response: Response) {
 
     const usuario = request.body
 
-    const newUsuario = await loadByEmail(usuario.email, usuario.nome)
+    const newUsuario = await loadByEmail(usuario.email)
 
     if (!newUsuario) {
       return response
@@ -53,7 +53,7 @@ export async function loginController(request: Request, response: Response) {
     if (usuario.senha !== newUsuario.senha) {
       return response.status(401).json({ mensagem: 'A senha está incorreta!' })
     }
-    return response.json({ id: newUsuario.id })
+    return response.json({ id: newUsuario.id, cargo: newUsuario.cargo })
   } catch (error) {
     return response.status(500).json(error)
   }

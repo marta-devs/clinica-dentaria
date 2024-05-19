@@ -1,18 +1,9 @@
 import { prisma } from './connection'
 
-export async function loadByEmail(email: string, nome: string) {
+export async function loadByEmail(email: string) {
   const usuario = await prisma.usuario.findFirst({
     where: {
-      paciente: {
-        OR: [
-          {
-            email,
-          },
-          {
-            nome,
-          },
-        ],
-      },
+      login: email
     },
   })
 
@@ -21,9 +12,9 @@ export async function loadByEmail(email: string, nome: string) {
 
 export async function findPacienteByUsuarioId(usuarioId: string) {
   const usuario = await prisma.usuario.findUnique({
-  
-    include:{
-      paciente:true
+
+    include: {
+      paciente: true
     },
 
     where: {
@@ -32,19 +23,4 @@ export async function findPacienteByUsuarioId(usuarioId: string) {
   })
 
   return usuario
-}
-
-export async function addCadastroSenhaUsuarioRepository (senha:string, pacienteId:number) {
-
-
-
-  const usuario = await prisma.usuario.create({
-    data:{
-      senha,
-      cargo: "paciente",
-      pacienteId
-    }
-  })
-  
- return usuario
 }

@@ -18,6 +18,8 @@ const horaExpediente = [480, 900]
 const CARGAHORARIA = 420 // 7 HORAS
 
 const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async (_, index) => {
+  const email = faker.internet.email()
+
   await prisma.paciente.create({
     data: {
       nome: faker.internet.displayName(),
@@ -26,29 +28,17 @@ const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async 
       sexo: index % 2 === 0 ? 'Femenino' : 'Masculino',
       nacionalidade: faker.location.country(),
       telefone: faker.phone.number(),
-      email: faker.internet.email(),
-      endereco: faker.location.city()
+      email: email,
+      endereco: faker.location.city(),
+      Usuario: {
+        create: {
+          login: email,
+          cargo: 'PACIENTE',
+          senha: faker.internet.password(),
+        }
+      }
     }
   })
-
-  await prisma.usuario.create({
-    data: {
-      cargo: 'Paciente',
-      senha: faker.internet.password(),
-      pacienteId: index + 1
-    }
-  })
-})
-
-const createFakeUsuarios = (): void => Array.from({ length: 5 }).forEach(async (_, index) => {
-  await prisma.usuario.create({
-    data: {
-      cargo: 'Paciente',
-      senha: faker.internet.password(),
-      pacienteId: index + 1
-    }
-  })
-  console.log(index)
 })
 
 const createFakeDentistas = (): void => Array.from({ length: 7 }).forEach(async (_, index) => {

@@ -4,6 +4,7 @@ import { findDentistasAllController } from 'controller/dentista-controller/find-
 import { Router } from 'express'
 import { addDentistaController } from 'controller/dentista-controller/add-dentista-controller'
 import { updateDentistaController } from 'controller/dentista-controller/update-dentista-controller'
+import { deleteDentistaController } from 'controller/dentista-controller/delete-dentista-controller'
 
 const routes = Router()
 
@@ -12,5 +13,6 @@ routes.get('/dentistas', findDentistasByNome)
 routes.get('/dentistas/todos', findDentistasAllController)
 routes.get('/dentistas/:dentistaId', findDentistaById)
 routes.put('/dentistas/:dentistaId', updateDentistaController)
+routes.delete('/dentistas/:dentistaId', deleteDentistaController)
 
 export default routes

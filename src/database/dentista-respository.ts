@@ -96,3 +96,11 @@ export async function updateDentistaRepository(
     }
   })
 }
+
+export async function deleteDentistaRepository(id: number) {
+  await prisma.dentista.delete({
+    where: {
+      id
+    },
+  })
+}

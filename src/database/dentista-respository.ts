@@ -71,3 +71,28 @@ export async function addDentistaRepository(
     }
   })
 }
+
+export async function updateDentistaRepository(
+  id: number,
+  nome: string,
+  especialidade: string,
+  NCarteira: string,
+  horaStart: number,
+  horaEnd: number
+) {
+
+  await prisma.dentista.update({
+    where: {
+      id
+    },
+    data: {
+      nome,
+      especialidade,
+      NCarteira,
+      status: 'ACTIVO',
+      semanaAtendimento: '',
+      horaStart,
+      horaEnd
+    }
+  })
+}

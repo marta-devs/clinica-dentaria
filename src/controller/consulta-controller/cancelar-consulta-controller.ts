@@ -1,5 +1,5 @@
 import {
-  findConsultaById,
+  findConsultaByIdRepository,
   updateStatusParaCanceladoRepository,
 } from 'database/consulta-repository'
 import { type Request, type Response } from 'express'
@@ -20,7 +20,7 @@ export async function cancelarConsultaController(
       return response.status(403).json({ mensagem: isValidate })
     }
 
-    const oldConsulta = await findConsultaById(consulta_id)
+    const oldConsulta = await findConsultaByIdRepository(consulta_id)
 
     if (!oldConsulta) {
       return response

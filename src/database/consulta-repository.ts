@@ -47,7 +47,7 @@ export async function addConsultaRepository(param: AddConsultaParam) {
   })
 }
 
-export async function findConsultaById(consultaId: number) {
+export async function findConsultaByIdRepository(consultaId: number) {
   const consulta = await prisma.consulta.findUnique({
     where: {
       id: consultaId,
@@ -97,6 +97,11 @@ export async function findConsultasByDentistaIdEDataEscolhidoRepository(dentista
 
 export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
   const consultas = await prisma.consulta.findMany({
+    include: {
+      dentista: true,
+      paciente: true,
+      tipo_consulta: true
+    },
     where: {
       pacienteId: paciente_id
     }

@@ -103,3 +103,20 @@ export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
   })
   return consultas
 }
+
+export async function findTodasConsultasRepository(page: number, limit: number) {
+  const consultas = await prisma.consulta.findMany({
+    include: {
+      dentista: true,
+      paciente: true,
+      tipo_consulta: true
+    },
+    orderBy: {
+      data_consulta: 'asc'
+    },
+    skip: page,
+    take: limit
+  })
+
+  return consultas
+}

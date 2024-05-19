@@ -69,3 +69,25 @@ export async function updateConsultaRepository(param: UpdateConsultaParam) {
     },
   })
 }
+
+export async function findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id: number, dataEscolhido: string) {
+  const consultas = await prisma.consulta.findMany({
+    where: {
+      AND: [
+        { dentistaId: dentista_id },
+        { data_consulta: dataEscolhido }
+      ]
+    }
+  })
+
+  return consultas
+}
+
+export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
+  const consultas = await prisma.consulta.findMany({
+    where: {
+      pacienteId: paciente_id
+    }
+  })
+  return consultas
+}

@@ -28,13 +28,13 @@ export async function addPacienteRepository(
   return paciente
 }
 
-export async function  findEmailAndTelefonePaciente(email:string, telefone:string){
+export async function findEmailAndTelefonePaciente(email: string, telefone: string) {
 
   const paciente = await prisma.paciente.findFirst({
-    where:{
-      OR:[
-        {email:email},
-        {telefone: telefone}
+    where: {
+      OR: [
+        { email: email },
+        { telefone: telefone }
       ]
     }
   })

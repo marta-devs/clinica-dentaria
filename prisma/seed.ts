@@ -60,7 +60,7 @@ const createFakeDentistas = (): void => Array.from({ length: 7 }).forEach(async 
       status: index % 2 === 0 ? 'ativo' : 'desativo',
       semanaAtendimento: 'segunda, terça, quarta, quinta, sexta',
       horaStart: horaExpediente[index % 2],
-      horaEnd: horaExpediente[index % 2] * CARGAHORARIA,
+      horaEnd: horaExpediente[index % 2] + CARGAHORARIA,
     }
   })
 })

@@ -15,6 +15,7 @@
 - [x] GET: localhost:3333/tiposConsulta/todos
 - [x] POST: localhost:3333/consulta
 - [x] POST: localhost:3333/consulta/reagendar
+- [x] Get: localhost:3333/consulta/dentista_id/horas?data_escolhido=${data}
 - [ ] Post: signup
 
 ### 📋 Pré-requisitos

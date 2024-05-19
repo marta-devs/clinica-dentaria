@@ -29,7 +29,6 @@ export async function updateTipoConsultaController(
 
     const tipoConsulta = await findTipoConsultaByIdRepository(id)
 
-
     if (!tipoConsulta) {
       return response.status(401).json({ mensagem: 'Esse serviço não existe no banco de dados' })
     }

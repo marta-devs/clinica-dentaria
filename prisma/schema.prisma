@@ -40,9 +40,9 @@ model Dentista {
   id                Int        @id @default(autoincrement())
   nome              String
   especialidade     String
-  NCarteira         String
+  NCarteira         String     @unique
   status            String
-  semanaAtendimento String
+  semanaAtendimento String?
   horaStart         Int
   horaEnd           Int
   Consulta          Consulta[]

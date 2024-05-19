@@ -4,8 +4,18 @@ import { prisma } from './connection'
 export async function findDentistaByIdRepository(dentistaId: number) {
   const dentista = await prisma.dentista.findUnique({
     where: {
-      id: dentistaId,
-    },
+      id: dentistaId
+    }
+  })
+
+  return dentista
+}
+
+export async function findDentistaByNCarteiraRepository(NCarteira: string) {
+  const dentista = await prisma.dentista.findFirst({
+    where: {
+      NCarteira
+    }
   })
 
   return dentista
@@ -37,6 +47,27 @@ export async function findDentistaAllRepository() {
       ...dentista,
       horaStart: convertHourMinutesToHourString(dentista?.horaStart),
       horaEnd: convertHourMinutesToHourString(dentista?.horaEnd),
+    }
+  })
+}
+
+export async function addDentistaRepository(
+  nome: string,
+  especialidade: string,
+  NCarteira: string,
+  horaStart: number,
+  horaEnd: number
+) {
+
+  await prisma.dentista.create({
+    data: {
+      nome,
+      especialidade,
+      NCarteira,
+      status: 'ACTIVO',
+      semanaAtendimento: '',
+      horaStart,
+      horaEnd
     }
   })
 }

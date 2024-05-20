@@ -28,13 +28,13 @@
 
 - [x] POST: localhost:3333/consulta
 - [x] POST: localhost:3333/consulta/reagendar
-- [x] Get: localhost:3333/consulta/dentista_id/horas?data_escolhido=${data}
-- [x] Get: localhost:3333/consulta/:consulta_id/cancelar
-- [x] Get: localhost:3333/consulta/consultas?filtro=${filtro}&page=${page}&limit=${limit}
+- [x] GET: localhost:3333/consulta/dentista_id/horas?data_escolhido=${data}
+- [x] GET: localhost:3333/consulta/:consulta_id/cancelar
+- [x] GET: localhost:3333/consulta/consultas?filtro=${filtro}&page=${page}&limit=${limit}
 - [x] GET: localhost.3333/consulta/:consulta_id
 
 ### Rotas de consultas
-- [x] Get: localhost:3333/paciente/:${usuarioId}
+- [x] GET: localhost:3333/paciente/:${usuarioId}
 
 ### 📋 Pré-requisitos
 

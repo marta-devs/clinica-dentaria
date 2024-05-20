@@ -11,6 +11,15 @@ const schema = z.object({
   especialidade: z
     .string({ required_error: 'O parametro especialidade obrigatório' })
     .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  email: z
+    .string({ required_error: 'O parametro email obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  telefone: z
+    .string({ required_error: 'O parametro telefone obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  endereco: z
+    .string({ required_error: 'O parametro telefone obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
   NCarteira: z
     .string({ required_error: 'O parametro NCarteira obrigatório' })
     .min(1, { message: 'Preencha o campo NCarteira' }),
@@ -53,6 +62,9 @@ export async function addDentistaController(
       dadoDentista.nome,
       dadoDentista.especialidade,
       dadoDentista.NCarteira,
+      dadoDentista.email,
+      dadoDentista.telefone,
+      dadoDentista.endereco,
       horaStartInNumber,
       horaEndInNumber
     )

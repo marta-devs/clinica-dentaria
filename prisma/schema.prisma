@@ -43,6 +43,9 @@ model Dentista {
   NCarteira         String     @unique
   status            String
   semanaAtendimento String?
+  email             String?
+  telefone          String?
+  endereco          String?
   horaStart         Int
   horaEnd           Int
   Consulta          Consulta[]

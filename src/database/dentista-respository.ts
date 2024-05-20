@@ -57,6 +57,9 @@ export async function findDentistaAllRepository(page: number, limit: number) {
 export async function addDentistaRepository(
   nome: string,
   especialidade: string,
+  email: string,
+  telefone: string,
+  endereco: string,
   NCarteira: string,
   horaStart: number,
   horaEnd: number
@@ -70,7 +73,10 @@ export async function addDentistaRepository(
       status: 'ACTIVO',
       semanaAtendimento: '',
       horaStart,
-      horaEnd
+      horaEnd,
+      email,
+      telefone,
+      endereco,
     }
   })
 }

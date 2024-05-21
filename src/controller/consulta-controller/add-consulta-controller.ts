@@ -37,6 +37,7 @@ export async function addConsultaController(
     const isValidate = zodValidation(schema, dataConsulta)
 
     if (isValidate) {
+      console.log(isValidate)
       return response.status(403).json({ mensagem: isValidate })
     }
 
@@ -85,7 +86,7 @@ export async function addConsultaController(
       data_consulta: dataConsulta.data_consulta,
       hora_consulta: horaConsultaInFormatNumber,
       dentistaId: dentista.id,
-      pacienteId: usuario.pacienteId,
+      pacienteId: usuario.pacienteId || 0,
       observado: dataConsulta.observado,
       tipo_consultaId: dataConsulta.tipo_consultaId,
     })

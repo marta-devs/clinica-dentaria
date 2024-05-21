@@ -64,6 +64,14 @@ async function main() {
   await prisma.tipo_consulta.createMany({
     data: tiposDeConsulta
   })
+  await prisma.usuario.create({
+    data: {
+      login: 'delgadeodato@gmail.com',
+      senha: 'arieldelgado2004',
+      cargo: 'admin',
+      pacienteId: 1
+    }
+  })
 
 }
 

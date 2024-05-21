@@ -28,12 +28,12 @@ model Paciente {
 }
 
 model Usuario {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   cargo      String
   senha      String
-  pacienteId Int
-  login      String   @unique
-  paciente   Paciente @relation(fields: [pacienteId], references: [id])
+  pacienteId Int?      @default(0)
+  login      String    @unique
+  paciente   Paciente? @relation(fields: [pacienteId], references: [id])
 }
 
 model Dentista {

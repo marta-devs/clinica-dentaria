@@ -42,7 +42,7 @@ export async function findDentistaByNomeRepository(nome: string = '') {
 export async function findDentistaAllRepository(page: number, limit: number) {
   const dentistas = await prisma.dentista.findMany({
     skip: page,
-    take: limit
+    take: limit,
   })
 
   return dentistas.map((dentista) => {
@@ -85,12 +85,18 @@ export async function updateDentistaRepository(
   id: number,
   nome: string,
   especialidade: string,
+  email: string,
+  telefone: string,
+  endereco: string,
   NCarteira: string,
   horaStart: number,
   horaEnd: number
 ) {
 
-  await prisma.dentista.update({
+
+  console.log(NCarteira)
+
+  const response = await prisma.dentista.update({
     where: {
       id
     },
@@ -98,12 +104,14 @@ export async function updateDentistaRepository(
       nome,
       especialidade,
       NCarteira,
-      status: 'ACTIVO',
-      semanaAtendimento: '',
       horaStart,
-      horaEnd
+      horaEnd,
+      email,
+      telefone,
+      endereco
     }
   })
+
 }
 
 export async function deleteDentistaRepository(id: number) {

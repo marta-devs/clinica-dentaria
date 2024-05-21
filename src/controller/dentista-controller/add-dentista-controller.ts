@@ -61,10 +61,10 @@ export async function addDentistaController(
     await addDentistaRepository(
       dadoDentista.nome,
       dadoDentista.especialidade,
-      dadoDentista.NCarteira,
       dadoDentista.email,
       dadoDentista.telefone,
       dadoDentista.endereco,
+      dadoDentista.NCarteira,
       horaStartInNumber,
       horaEndInNumber
     )

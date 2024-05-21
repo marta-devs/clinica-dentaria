@@ -11,6 +11,15 @@ const schema = z.object({
   especialidade: z
     .string({ required_error: 'O parametro especialidade obrigatório' })
     .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  email: z
+    .string({ required_error: 'O parametro email obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  telefone: z
+    .string({ required_error: 'O parametro telefone obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
+  endereco: z
+    .string({ required_error: 'O parametro telefone obrigatório' })
+    .min(1, { message: 'Preencha o campo nome do especialidade' }),
   NCarteira: z
     .string({ required_error: 'O parametro NCarteira obrigatório' })
     .min(1, { message: 'Preencha o campo NCarteira' }),
@@ -46,14 +55,19 @@ export async function updateDentistaController(
 
     const dentista = await findDentistaByIdRepository(id)
 
+
     if (!dentista) {
       return response.status(401).json({ mensagem: 'Dentista não na base de dados' })
     }
 
+    console.log(dadoDentista.NCarteira)
     await updateDentistaRepository(
       id,
       dadoDentista.nome,
       dadoDentista.especialidade,
+      dadoDentista.email,
+      dadoDentista.telefone,
+      dadoDentista.endereco,
       dadoDentista.NCarteira,
       horaStartInNumber,
       horaEndInNumber

@@ -25,7 +25,7 @@ export async function findDentistaById(request: Request, response: Response) {
 
     const newDentista = Object.assign(dentista, {
       horaStart: convertHourMinutesToHourString(dentista.horaStart),
-      horaEnd: convertHourMinutesToHourString(dentista.horaStart),
+      horaEnd: convertHourMinutesToHourString(dentista.horaEnd),
     })
 
     return response.json(newDentista)

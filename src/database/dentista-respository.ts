@@ -96,7 +96,7 @@ export async function updateDentistaRepository(
 
   console.log(NCarteira)
 
-  const response = await prisma.dentista.update({
+  await prisma.dentista.update({
     where: {
       id
     },

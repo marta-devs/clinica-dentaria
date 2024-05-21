@@ -46,10 +46,11 @@ export async function updateTipoConsultaByIdRepository(
   })
 }
 
-export async function deleteTipoConsultaByIdRepository(tipoConsulta_id: number) {
+export async function deleteTipoConsultaByIdRepository(id: number) {
   await prisma.tipo_consulta.delete({
     where: {
-      id: tipoConsulta_id
+      id
     }
   })
+
 }

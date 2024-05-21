@@ -7,13 +7,15 @@ export async function deleteTipoConsultaController(
   response: Response
 ) {
   try {
-    const id = parseInt(request.params.tiposConsulta_id)
+    const id = parseInt(request.params.tiposConsultaId)
+    console.log(typeof (id))
 
     const tipoConsulta = await findTipoConsultaByIdRepository(id)
 
     if (!tipoConsulta) {
       return response.status(401).json({ mensagem: 'Esse serviço não existe no banco de dados' })
     }
+    console.log(tipoConsulta)
 
     await deleteTipoConsultaByIdRepository(id)
 

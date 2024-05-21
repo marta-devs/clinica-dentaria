@@ -9,7 +9,7 @@ const routes = Router()
 routes.get('/tiposConsulta/todos', findTiposDeConsultaAllController)
 routes.post('/tiposConsulta', addTipoConsultaController)
 routes.put('/tiposConsulta/:tiposConsulta_id', updateTipoConsultaController)
-routes.delete('/tiposConsulta/:tiposConsulta_id', deleteTipoConsultaController)
+routes.delete('/tiposConsulta/:tiposConsultaId', deleteTipoConsultaController)
 
 
 export default routes

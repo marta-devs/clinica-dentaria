@@ -20,6 +20,7 @@ export async function addTipoConsultaController(
   try {
     const dadoTipoConsulta = request.body
 
+    console.log(dadoTipoConsulta)
     const isValidate = zodValidation(schema, dadoTipoConsulta)
 
     if (isValidate) {

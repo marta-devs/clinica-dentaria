@@ -70,3 +70,7 @@ export async function findPacienteByIdRepository(id: number) {
   return paciente
 
 }
+
+export async function findPacienteAllRepository() {
+  return await prisma.dentista.findMany({})
+}

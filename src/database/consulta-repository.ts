@@ -66,7 +66,7 @@ export async function updateConsultaRepository(param: UpdateConsultaParam) {
       hora_consulta: param.hora_consulta,
       data_consulta: param.data_consulta,
       dentistaId: param.dentistaId,
-      status: 'AGENDADA'
+      status: 'AGENDADA',
     },
   })
 }
@@ -77,19 +77,19 @@ export async function updateStatusParaCanceladoRepository(id: number) {
       id,
     },
     data: {
-      status: 'CANCELADO'
+      status: 'CANCELADO',
     },
   })
 }
 
-export async function findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id: number, dataEscolhido: string) {
+export async function findConsultasByDentistaIdEDataEscolhidoRepository(
+  dentista_id: number,
+  dataEscolhido: string
+) {
   const consultas = await prisma.consulta.findMany({
     where: {
-      AND: [
-        { dentistaId: dentista_id },
-        { data_consulta: dataEscolhido }
-      ]
-    }
+      AND: [{ dentistaId: dentista_id }, { data_consulta: dataEscolhido }],
+    },
   })
 
   return consultas
@@ -100,28 +100,39 @@ export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
     include: {
       dentista: true,
       paciente: true,
-      tipo_consulta: true
+      tipo_consulta: true,
     },
     where: {
-      pacienteId: paciente_id
-    }
+      pacienteId: paciente_id,
+    },
   })
   return consultas
 }
 
-export async function findTodasConsultasRepository(page: number, limit: number) {
+export async function findTodasConsultasRepository(
+  page: number,
+  limit: number
+) {
   const consultas = await prisma.consulta.findMany({
     include: {
       dentista: true,
       paciente: true,
-      tipo_consulta: true
+      tipo_consulta: true,
     },
     orderBy: {
-      data_consulta: 'asc'
+      data_consulta: 'asc',
     },
     skip: page,
-    take: limit
+    take: limit,
   })
 
   return consultas
+}
+export async function FindConsultasFinalizadasRepository() {
+  const consultasFinalizadas = prisma.consulta.findMany({
+    where: {
+      status: 'Finalizada',
+    },
+  })
+  return consultasFinalizadas
 }

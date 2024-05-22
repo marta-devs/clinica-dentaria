@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 
@@ -17,64 +17,82 @@ const tiposDeConsulta = [
 const horaExpediente = [480, 900]
 const CARGAHORARIA = 420 // 7 HORAS
 
-const createFakePacientes = (): void => Array.from({ length: 6 }).forEach(async (_, index) => {
-  const email = faker.internet.email()
+const createFakePacientes = (): void =>
+  Array.from({ length: 6 }).forEach(async (_, index) => {
+    const email = faker.internet.email()
 
-  await prisma.paciente.create({
-    data: {
-      nome: faker.internet.displayName(),
-      sobreNome: faker.internet.userName(),
-      data_nasc: faker.date.past({ years: 10 }).toString(),
-      sexo: index % 2 === 0 ? 'Femenino' : 'Masculino',
-      nacionalidade: faker.location.country(),
-      telefone: faker.phone.number(),
-      email: email,
-      endereco: faker.location.city(),
-      Usuario: {
-        create: {
-          login: email,
-          cargo: 'PACIENTE',
-          senha: faker.internet.password(),
-        }
-      }
-    }
+    await prisma.paciente.create({
+      data: {
+        nome: faker.internet.displayName(),
+        sobreNome: faker.internet.userName(),
+        data_nasc: faker.date.past({ years: 10 }).toString(),
+        sexo: index % 2 === 0 ? 'Femenino' : 'Masculino',
+        nacionalidade: faker.location.country(),
+        telefone: faker.phone.number(),
+        email: email,
+        endereco: faker.location.city(),
+        Usuario: {
+          create: {
+            login: email,
+            cargo: 'PACIENTE',
+            senha: faker.internet.password(),
+          },
+        },
+      },
+    })
   })
-})
+const createFakeFuncionario = (): void =>
+  Array.from({ length: 7 }).forEach(async () => {
+    await prisma.funcionario.create({
+      data: {
+        nome: faker.internet.userName(),
+        telefone: faker.phone.number(),
+        email: faker.internet.email(),
+        Usuario: {
+          create: {
+            cargo: faker.person.jobArea(),
+            login: faker.internet.email(),
+            senha: faker.internet.password(),
+          },
+        },
+      },
+    })
+  })
 
-const createFakeDentistas = (): void => Array.from({ length: 7 }).forEach(async (_, index) => {
-  await prisma.dentista.create({
-    data: {
-      nome: faker.internet.userName(),
-      especialidade: 'dentista-senior',
-      NCarteira: faker.string.numeric(13),
-      status: index % 2 === 0 ? 'ativo' : 'desativo',
-      semanaAtendimento: 'segunda, terça, quarta, quinta, sexta',
-      horaStart: horaExpediente[index % 2],
-      horaEnd: horaExpediente[index % 2] + CARGAHORARIA,
-    }
+const createFakeDentistas = (): void =>
+  Array.from({ length: 7 }).forEach(async (_, index) => {
+    await prisma.dentista.create({
+      data: {
+        nome: faker.internet.userName(),
+        especialidade: 'dentista-senior',
+        NCarteira: faker.string.numeric(13),
+        status: index % 2 === 0 ? 'ativo' : 'desativo',
+        semanaAtendimento: 'segunda, terça, quarta, quinta, sexta',
+        horaStart: horaExpediente[index % 2],
+        horaEnd: horaExpediente[index % 2] + CARGAHORARIA,
+      },
+    })
   })
-})
 
 async function main() {
   await Promise.all([
     createFakePacientes(),
     createFakeDentistas(),
+    createFakeFuncionario(),
   ])
 
   await prisma.tipo_consulta.createMany({
-    data: tiposDeConsulta
+    data: tiposDeConsulta,
   })
   await prisma.usuario.create({
     data: {
       login: 'delgadeodato@gmail.com',
       senha: 'arieldelgado2004',
       cargo: 'admin',
-      pacienteId: 1
-    }
+      pacienteId: 1,
+    },
   })
-
 }
-
 
 main()
   .then(async () => {

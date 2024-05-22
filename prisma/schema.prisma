@@ -34,6 +34,15 @@ model Usuario {
   pacienteId Int?      @default(0)
   login      String    @unique
   paciente   Paciente? @relation(fields: [pacienteId], references: [id])
+  funcionarioId String
+  funcionario Funcionario @relation(fields: [funcionarioId], references: [id])
+}
+model Funcionario{
+  id        String @id @default(uuid())
+  nome      String
+  telefone  String
+  email     String
+  Usuario   Usuario[]
 }
 
 model Dentista {

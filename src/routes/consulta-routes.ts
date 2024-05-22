@@ -6,7 +6,8 @@ import { findHorariosLivresController } from 'controller/consulta-controller/fin
 import { reagendarConsultaController } from 'controller/consulta-controller/reagendar-consulta-controller'
 import { Router } from 'express'
 import { findConsultaByIdController } from 'controller/consulta-controller/find-consulta-by-id-controller'
-
+import { findFuncionarioController } from 'controller/funcionario-controller/find-funcionario-controller'
+import { findConsultasFinalizadasController } from 'controller/consulta-controller/find-consultas-finzalizada-controller'
 const routes = Router()
 
 routes.post('/consulta', addConsultaController)
@@ -16,5 +17,7 @@ routes.get('/consulta/:dentista_id/horas', findHorariosLivresController)
 routes.get('/consulta/:consulta_id/cancelar', cancelarConsultaController)
 routes.get('/consulta/consultas', findConsultaByEspecialistaOrDataController)
 routes.get('/consulta/:consulta_id', findConsultaByIdController)
+routes.get('/consulta/funcionario/:id', findFuncionarioController)
+routes.get('/consulta/finalizadas', findConsultasFinalizadasController)
 
 export default routes

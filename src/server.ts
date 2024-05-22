@@ -6,6 +6,8 @@ import consultaRoutes from './routes/consulta-routes'
 import userRouter from './routes/user-router'
 import cadastroRoutes from './routes/cadastro-routes'
 import pacienteRoutes from './routes/paciente-routes'
+import deleteRoutes from './routes/delete-routes'
+import updateRoutes from './routes/update-routes'
 import cors from 'cors'
 
 const port = process.env.PORT
@@ -21,7 +23,8 @@ app.use(consultaRoutes)
 app.use(userRouter)
 app.use(cadastroRoutes)
 app.use(pacienteRoutes)
-
+app.use(deleteRoutes)
+app.use(updateRoutes)
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`)
 })

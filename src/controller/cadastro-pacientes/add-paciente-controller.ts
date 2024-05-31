@@ -2,6 +2,7 @@ import { response, type Request, type Response } from 'express'
 import { addPacienteRepository, findEmailAndTelefonePaciente, findPacienteByIdRepository } from '../../database/paciente-repository'
 import { z } from 'zod'
 import { zodValidation } from 'utils/zodValidation';
+import moment from 'moment';
 
 
 const Schema = z.object({
@@ -30,13 +31,16 @@ async function AddPacienteController(request: Request, response: Response) {
 
     const findPaciente = await findEmailAndTelefonePaciente(usuario.email, usuario.telefone)
 
+    if (moment(usuario.data_nasc).isSameOrAfter('2023-12-31', 'year')) {
+      return response.status(401).json({ mensagem: 'Essa data de nascimento muito recente!' })
+    }
 
     if (findPaciente?.email == usuario.email) {
-      return response.json({ mensagem: 'já existe um paciente com este email' })
+      return response.status(401).json({ mensagem: 'já existe um paciente com este email' })
     }
 
     if (findPaciente?.telefone == usuario.telefone) {
-      return response.json({ mensagem: 'já existe um paciente com este telefone' })
+      return response.status(401).json({ mensagem: 'já existe um paciente com este telefone' })
     }
 
 

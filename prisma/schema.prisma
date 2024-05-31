@@ -14,35 +14,39 @@ datasource db {
 }
 
 model Paciente {
-  id            Int        @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   nome          String
   sobreNome     String
   data_nasc     String
   sexo          String
   nacionalidade String
-  telefone      String     @unique
-  email         String     @unique
+  telefone      String @unique
+  email         String @unique
   endereco      String
-  Usuario       Usuario[]
-  Consulta      Consulta[]
+
+  Usuario  Usuario[]
+  Consulta Consulta[]
 }
 
 model Usuario {
-  id         String    @id @default(uuid())
-  cargo      String
-  senha      String
-  pacienteId Int?      @default(0)
-  login      String    @unique
-  paciente   Paciente? @relation(fields: [pacienteId], references: [id])
-  funcionarioId String
-  funcionario Funcionario @relation(fields: [funcionarioId], references: [id])
+  id            String @id @default(uuid())
+  cargo         String
+  senha         String
+  pacienteId    Int?
+  funcionarioId Int?
+  login         String @unique
+
+  paciente    Paciente?    @relation(fields: [pacienteId], references: [id])
+  funcionario Funcionario? @relation(fields: [funcionarioId], references: [id])
 }
-model Funcionario{
-  id        String @id @default(uuid())
-  nome      String
-  telefone  String
-  email     String
-  Usuario   Usuario[]
+
+model Funcionario {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  telefone String
+  email    String
+
+  Usuario Usuario[]
 }
 
 model Dentista {

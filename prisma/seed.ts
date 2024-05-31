@@ -41,23 +41,27 @@ const createFakePacientes = (): void =>
       },
     })
   })
-const createFakeFuncionario = (): void =>
+
+const createFakeFuncionario = (): void => {
   Array.from({ length: 7 }).forEach(async () => {
+    const email = faker.internet.email();
+
     await prisma.funcionario.create({
       data: {
         nome: faker.internet.userName(),
         telefone: faker.phone.number(),
-        email: faker.internet.email(),
+        email: email,
         Usuario: {
           create: {
-            cargo: faker.person.jobArea(),
-            login: faker.internet.email(),
+            login: email,
             senha: faker.internet.password(),
-          },
-        },
+            cargo: 'recepcionista'
+          }
+        }
       },
     })
   })
+}
 
 const createFakeDentistas = (): void =>
   Array.from({ length: 7 }).forEach(async (_, index) => {

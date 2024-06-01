@@ -5,6 +5,7 @@ import {
 } from 'database/consulta-repository'
 import { findDentistaByIdRepository } from 'database/dentista-respository'
 import { type Request, type Response } from 'express'
+import moment from 'moment'
 import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute'
 import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
@@ -17,7 +18,7 @@ const schema = z.object({
     .min(1, { message: 'Preencha o campo hora de consulta' }),
   data_consulta: z
     .string({ required_error: 'O parametro data_consulta é obrigatório' })
-    .min(1, { message: 'Preencha o campo data de consulta' }),
+    .date('Data da consulta invalida.'),
   dentistaId: z
     .number({ required_error: 'O parametro dentistaId é obrigatório' })
     .int({ message: 'O campo dentistaId deve ser inteiro' }),
@@ -54,6 +55,10 @@ export async function reagendarConsultaController(
 
     if (oldConsultas) {
       return response.status(401).json({ mensagem: 'Horario já preenchido' })
+    }
+
+    if (!moment(dataConsulta.data_consulta).isSameOrAfter(new Date().toISOString(), 'day')) {
+      return response.status(401).json({ mensagem: 'Já não se pode fazer marcação de data passada' })
     }
 
     const dentista = await findDentistaByIdRepository(dataConsulta.dentistaId)

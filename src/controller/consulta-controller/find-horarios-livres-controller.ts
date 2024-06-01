@@ -2,19 +2,23 @@ import { convertHourMinutesToHourString } from 'utils/convert-minutes-to-hour-st
 import { findConsultasByDentistaIdEDataEscolhidoRepository } from "database/consulta-repository"
 import { findDentistaByIdRepository } from "database/dentista-respository"
 import { Request, Response } from "express"
+import moment from 'moment';
 
 export async function findHorariosLivresController(request: Request, response: Response) {
   const dentista_id = Number(request.params.dentista_id)
   let dataEscolhido = request.query.data_escolhido?.toString()
-  const dataAtual = new Date()
 
-  if (dataEscolhido && dataAtual >= new Date(dataEscolhido)) {
+  const dataHoje = new Date().toISOString() //
+
+  if (!dataEscolhido) {
+    dataEscolhido = new Date().toISOString()
+  }
+
+  if (!moment(dataEscolhido).isSameOrAfter(new Date().toISOString(), 'day')) {
     return response.status(401).json({ mensagem: 'Não se pode agendar para uma data anterior' })
   }
 
-  if (!dataEscolhido) {
-    dataEscolhido = convertInOtherFormat()
-  }
+
 
   const dentista = await findDentistaByIdRepository(dentista_id)
 

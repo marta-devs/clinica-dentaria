@@ -49,6 +49,11 @@ export async function addConsultaRepository(param: AddConsultaParam) {
 
 export async function findConsultaByIdRepository(consultaId: number) {
   const consulta = await prisma.consulta.findUnique({
+    include: {
+      paciente: true,
+      dentista: true,
+      tipo_consulta: true
+    },
     where: {
       id: consultaId,
     },

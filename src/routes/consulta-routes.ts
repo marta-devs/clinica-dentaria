@@ -8,8 +8,11 @@ import { Router } from 'express'
 import { findConsultaByIdController } from 'controller/consulta-controller/find-consulta-by-id-controller'
 import { findFuncionarioController } from 'controller/funcionario-controller/find-funcionario-controller'
 import { findConsultasFinalizadasController } from 'controller/consulta-controller/find-consultas-finzalizada-controller'
+import { exibirRelatorioConsultaFeitaController } from 'controller/consulta-controller/exibir-relatorio-consulta-feita-controller'
+
 const routes = Router()
 
+routes.get('/consulta/:consultaId/relatorio', exibirRelatorioConsultaFeitaController)
 routes.post('/consulta', addConsultaController)
 routes.get('/consulta/:usuario_id/consultas', findConsultaByUsuarioIdController)
 routes.post('/consulta/reagendar', reagendarConsultaController)

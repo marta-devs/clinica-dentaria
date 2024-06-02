@@ -47,7 +47,7 @@ export async function exibirRelatorioConsultaFeitaController(request: Request, r
               text:
                 [
                   { text: "Data: ", bold: true },
-                  `${moment(new Date().toISOString(), "MM/DD/YYYY")}`,
+                  `${new Intl.DateTimeFormat("en-GB").format(new Date())}`,
                 ], style: "data"
             },
           ], style: "header"
@@ -171,7 +171,7 @@ export async function exibirRelatorioConsultaFeitaController(request: Request, r
                   style: "tableColumn",
                   text: [
                     { text: "Data de Criação\n\n", bold: true },
-                    { text: `${consulta?.data_criacao}` }
+                    { text: `${new Intl.DateTimeFormat("en-GB").format(new Date(consulta?.data_criacao || ''))}` }
                   ]
                 }
               ]

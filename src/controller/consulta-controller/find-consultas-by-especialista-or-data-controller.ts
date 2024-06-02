@@ -1,5 +1,6 @@
 import { findTodasConsultasRepository } from "database/consulta-repository";
 import { Request, Response } from "express";
+import { convertHourMinutesToHourString } from "utils/convert-minutes-to-hour-string";
 
 export async function findConsultaByEspecialistaOrDataController(request: Request, response: Response) {
   try {
@@ -16,7 +17,14 @@ export async function findConsultaByEspecialistaOrDataController(request: Reques
       || consulta.paciente.nome.toLowerCase().startsWith(filtro.toLowerCase())
     )
 
-    return response.json(consultasFiltradas)
+    const newConsultasFiltradas = consultasFiltradas.map(consulta => {
+      return {
+        ...consulta,
+        hora_consulta: convertHourMinutesToHourString(consulta.hora_consulta),
+      }
+    })
+
+    return response.json(newConsultasFiltradas)
   } catch (err) {
     return response.status(500).json({ mensagem: 'Ocorreu um erro interno' })
   }

@@ -9,6 +9,7 @@ import { findConsultaByIdController } from 'controller/consulta-controller/find-
 import { findFuncionarioController } from 'controller/funcionario-controller/find-funcionario-controller'
 import { findConsultasFinalizadasController } from 'controller/consulta-controller/find-consultas-finzalizada-controller'
 import { exibirRelatorioConsultaFeitaController } from 'controller/consulta-controller/exibir-relatorio-consulta-feita-controller'
+import { atualizarStatusConsultaController } from 'controller/consulta-controller/atualizar-status-consulta-controller'
 
 const routes = Router()
 
@@ -22,5 +23,6 @@ routes.get('/consulta/consultas', findConsultaByEspecialistaOrDataController)
 routes.get('/consulta/:consulta_id', findConsultaByIdController)
 routes.get('/consulta/funcionario/:id', findFuncionarioController)
 routes.get('/consulta/finalizadas', findConsultasFinalizadasController)
+routes.patch('/consulta/:consultaId', atualizarStatusConsultaController)
 
 export default routes

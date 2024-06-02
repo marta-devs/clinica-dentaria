@@ -36,7 +36,7 @@ export async function findConsultaByDataConsultaRepository(
 export async function addConsultaRepository(param: AddConsultaParam) {
   await prisma.consulta.create({
     data: {
-      status: 'AGENDADA',
+      status: 'AGUANDADO',
       observado: param.observado,
       hora_consulta: param.hora_consulta,
       data_consulta: param.data_consulta,
@@ -83,6 +83,17 @@ export async function updateStatusParaCanceladoRepository(id: number) {
     },
     data: {
       status: 'CANCELADO',
+    },
+  })
+}
+
+export async function updateStatusConsultaRepository(id: number, status: string) {
+  await prisma.consulta.update({
+    where: {
+      id,
+    },
+    data: {
+      status,
     },
   })
 }

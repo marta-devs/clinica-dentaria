@@ -30,7 +30,13 @@ export async function reagendarConsultaController(
 ) {
   try {
     const dataConsulta = request.body
-    const isValidate = zodValidation(schema, dataConsulta)
+
+    const consulta = {
+      ...dataConsulta,
+      data_consulta: moment(dataConsulta.data_consulta).format('YYYY-MM-DD')
+    }
+
+    const isValidate = zodValidation(schema, consulta)
 
     if (isValidate) {
       return response.status(403).json({ mensagem: isValidate })

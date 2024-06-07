@@ -8,8 +8,6 @@ export async function findHorariosLivresController(request: Request, response: R
   const dentista_id = Number(request.params.dentista_id)
   let dataEscolhido = request.query.data_escolhido?.toString()
 
-  const dataHoje = new Date().toISOString() //
-
   if (!dataEscolhido) {
     dataEscolhido = new Date().toISOString()
   }
@@ -18,19 +16,19 @@ export async function findHorariosLivresController(request: Request, response: R
     return response.status(401).json({ mensagem: 'Não se pode agendar para uma data anterior' })
   }
 
-
-
   const dentista = await findDentistaByIdRepository(dentista_id)
 
   if (!dentista) {
     return response.status(401).json({ mensagem: 'Dentista não existe na base de dados' })
   }
 
-  const consultas = await findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id, dataEscolhido)
+  const dataConvertEmOutroFormato = moment(dataEscolhido).format('YYYY-MM-DD')
 
-  const { horasDiponiveis } = calcularHorasDisponiveis(dentista, consultas)
+  const consultas = await findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id, dataConvertEmOutroFormato)
 
-  return response.json(horasDiponiveis)
+  const { horasDisponiveis } = calcularHorasDisponiveis(dentista, consultas)
+
+  return response.json(horasDisponiveis)
 }
 
 
@@ -38,21 +36,19 @@ const calcularHorasDisponiveis = (dentista: any, consultas: any[]) => {
   const intervaloEntreAsHoras = 60 // 1hora
   let increment = dentista?.horaStart
 
-  const horasDiponiveis = [] as string[]
+  const horasDisponiveis = [] as string[]
 
   while (dentista?.horaEnd && increment && increment <= dentista?.horaEnd) {
-
-    const isAgendado = consultas.some(consulta => consulta?.hora_consulta === increment)
-
+    const isAgendado = consultas.find(consulta => consulta?.hora_consulta === increment)
     if (!isAgendado) {
       let horaEmString = convertHourMinutesToHourString(increment)
-      horasDiponiveis.push(horaEmString)
+      horasDisponiveis.push(horaEmString)
     }
     increment = intervaloEntreAsHoras + increment
   }
 
   return {
-    horasDiponiveis
+    horasDisponiveis
   }
 }
 

@@ -35,7 +35,14 @@ export async function addConsultaController(
 ) {
   try {
     const dataConsulta = request.body
-    const isValidate = zodValidation(schema, dataConsulta)
+
+    const consulta = {
+      ...dataConsulta,
+      data_consulta: moment(dataConsulta.data_consulta).format('YYYY-MM-DD')
+    }
+
+    const isValidate = zodValidation(schema, consulta)
+
 
     if (isValidate) {
       console.log(isValidate)
@@ -47,11 +54,11 @@ export async function addConsultaController(
     )
 
     const oldConsulta = await findConsultaByDataConsultaRepository(
-      dataConsulta.data_consulta,
+      consulta.data_consulta,
       horaConsultaInFormatNumber
     )
 
-    if (!moment(dataConsulta.data_consulta).isSameOrAfter(new Date().toISOString(), 'day')) {
+    if (!moment(consulta.data_consulta).isSameOrAfter(new Date().toISOString(), 'day')) {
       return response.status(401).json({ mensagem: 'Já não se pode fazer marcação de data passada' })
     }
 
@@ -59,7 +66,7 @@ export async function addConsultaController(
       return response.status(401).json({ mensagem: 'Já foi feita consulta' })
     }
 
-    const dentista = await findDentistaByIdRepository(dataConsulta.dentistaId)
+    const dentista = await findDentistaByIdRepository(consulta.dentistaId)
 
     if (!dentista) {
       return response
@@ -79,7 +86,7 @@ export async function addConsultaController(
       })
     }
 
-    const usuario = await findPacienteByUsuarioId(dataConsulta.usuarioId)
+    const usuario = await findPacienteByUsuarioId(consulta.usuarioId)
 
     if (!usuario) {
       return response.status(401).json({
@@ -88,12 +95,12 @@ export async function addConsultaController(
     }
 
     await addConsultaRepository({
-      data_consulta: dataConsulta.data_consulta,
+      data_consulta: consulta.data_consulta,
       hora_consulta: horaConsultaInFormatNumber,
       dentistaId: dentista.id,
       pacienteId: usuario.pacienteId || 0,
-      observado: dataConsulta.observado,
-      tipo_consultaId: dataConsulta.tipo_consultaId,
+      observado: consulta.observado,
+      tipo_consultaId: consulta.tipo_consultaId,
     })
 
     return response.json({ messagem: 'Agendado com sucesso!' })

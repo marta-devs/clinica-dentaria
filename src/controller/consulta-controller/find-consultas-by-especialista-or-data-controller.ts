@@ -28,5 +28,4 @@ export async function findConsultaByEspecialistaOrDataController(request: Reques
   } catch (err) {
     return response.status(500).json({ mensagem: 'Ocorreu um erro interno' })
   }
-
 }

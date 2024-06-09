@@ -4,37 +4,42 @@ export async function AddFuncionarioRepository(
   nome: string,
   email: string,
   telefone: string,
-  senha: string
+  senha: string,
+  cargo : string
 ) {
   const funcionario = await prisma.funcionario.create({
     data: {
       nome,
-      telefone,
       email,
+      telefone, Usuario:{
+        create:{
+          login:email,
+          cargo:cargo,
+          senha:senha
+        }
+      }
     },
   })
 
   return funcionario
 }
 
-export async function FindFuncionarioByIDRepository(id: string) {
-  const funcionario = await prisma.funcionario.findFirst({
+export async function FindFuncionarioByIDRepository(id:number) {
+  const funcionario = await prisma.funcionario.findUnique({
     where: { id },
-    select: {
-      nome: true,
-      email: true,
-      telefone: true,
-    },
+    include:{
+      Usuario: true
+    }
   })
   return funcionario
 }
 
-export async function DeleteFuncionarioRepository(id: string) {
-  await prisma.funcionario.delete({ where: { id } })
+export async function DeleteFuncionarioRepository(id:number) {
+  await prisma.funcionario.delete({ where: { id} })
 }
 
 export async function UpdateFuncionarioRepository(
-  id: string,
+  id: number,
   nome: string,
   telefone: string,
   email: string,
@@ -53,20 +58,31 @@ export async function UpdateFuncionarioRepository(
   return funcionario
 }
 
-export async function FindRecepionistabyCargo(cargo: string) {
+export async function FindRecepionistabyCargo(cargo:string) {
   const recepionista = await prisma.funcionario.findMany({
-    select: {
-      nome: true,
-      telefone: true,
-      email: true,
-    },
-    where: {
-      Usuario: {
-        every: {
-          cargo,
-        },
-      },
-    },
+   
+   where:{
+     Usuario:{
+      every:{
+        cargo
+      }
+     }
+    }
   })
   return recepionista
+}
+
+
+export async function findRecepcionistaByIdRepository(id:number) {
+
+ const recepcionista= await prisma.funcionario.findFirst({
+    include:{
+      Usuario:true
+    },where:{
+      id
+    }
+  })
+
+  return recepcionista
+  
 }

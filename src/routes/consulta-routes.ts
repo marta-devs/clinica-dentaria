@@ -6,10 +6,11 @@ import { findHorariosLivresController } from 'controller/consulta-controller/fin
 import { reagendarConsultaController } from 'controller/consulta-controller/reagendar-consulta-controller'
 import { Router } from 'express'
 import { findConsultaByIdController } from 'controller/consulta-controller/find-consulta-by-id-controller'
-import { findFuncionarioController } from 'controller/funcionario-controller/find-funcionario-controller'
+import {FindRecepcionistaByIdController, findFuncionarioController, findRecepcionistaController } from 'controller/funcionario-controller/find-funcionario-controller'
 import { findConsultasFinalizadasController } from 'controller/consulta-controller/find-consultas-finzalizada-controller'
 import { exibirRelatorioConsultaFeitaController } from 'controller/consulta-controller/exibir-relatorio-consulta-feita-controller'
 import { atualizarStatusConsultaController } from 'controller/consulta-controller/atualizar-status-consulta-controller'
+import { findAllConsultsController } from 'controller/consulta-controller/find-all-consult-controller'
 
 const routes = Router()
 
@@ -22,7 +23,10 @@ routes.get('/consulta/:consulta_id/cancelar', cancelarConsultaController)
 routes.get('/consulta/consultas', findConsultaByEspecialistaOrDataController)
 routes.get('/consulta/:consulta_id', findConsultaByIdController)
 routes.get('/consulta/funcionario/:id', findFuncionarioController)
+routes.get('/consulta/recepcionistas/:cargo',findRecepcionistaController)
+routes.get('/consulta/recepcionista/:id',FindRecepcionistaByIdController)
 routes.get('/consulta/finalizadas', findConsultasFinalizadasController)
+routes.get('/consulta/todas/:id',findAllConsultsController)
 routes.patch('/consulta/:consultaId', atualizarStatusConsultaController)
 
 export default routes

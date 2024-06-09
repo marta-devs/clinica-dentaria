@@ -24,3 +24,4 @@ export async function findPacienteByUsuarioId(usuarioId: string) {
 
   return usuario
 }
+

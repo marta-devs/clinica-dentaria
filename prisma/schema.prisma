@@ -45,7 +45,6 @@ model Funcionario {
   nome     String
   telefone String
   email    String
-
   Usuario Usuario[]
 }
 

@@ -6,6 +6,6 @@ export async function deleteFuncionarioController(
   response: Response
 ) {
   const { id } = request.params
-  await DeleteFuncionarioRepository(id)
+  await DeleteFuncionarioRepository(parseInt(id))
   return response.json({ message: 'funcionario deletado com sucesso' })
 }

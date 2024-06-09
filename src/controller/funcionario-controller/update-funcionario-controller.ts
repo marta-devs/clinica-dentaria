@@ -1,7 +1,6 @@
 import { UpdateFuncionarioRepository } from 'database/funcionario-repository'
-import { Request } from 'express'
-import { request } from 'http'
-import { json } from 'stream/consumers'
+import { Request, Response } from 'express'
+
 
 export async function updateFuncionarioController(
   request: Request,
@@ -10,7 +9,7 @@ export async function updateFuncionarioController(
   const { id } = request.params
   const { nome, telefone, email, senha } = request.body
   const funcionario = await UpdateFuncionarioRepository(
-    id,
+    parseInt(id),
     nome,
     telefone,
     email,

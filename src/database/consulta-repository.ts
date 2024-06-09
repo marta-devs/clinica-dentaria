@@ -152,3 +152,20 @@ export async function FindConsultasFinalizadasRepository() {
   })
   return consultasFinalizadas
 }
+export async function findAllConsultRepository(id:number) {
+   const consult = await prisma.consulta.findMany({
+    include:{
+      dentista:true,
+      paciente:true,
+      tipo_consulta:true,
+  
+    },  
+    orderBy:{
+      data_consulta:'asc'
+    },
+    where:{
+      pacienteId:id
+    }
+   })
+   return consult
+}

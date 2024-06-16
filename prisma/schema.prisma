@@ -23,9 +23,8 @@ model Paciente {
   telefone      String @unique
   email         String @unique
   endereco      String
-
-  Usuario  Usuario[]
-  Consulta Consulta[]
+  Usuario       Usuario[]
+  Consulta      Consulta[]
 }
 
 model Usuario {
@@ -86,7 +85,17 @@ model Consulta {
   paciente      Paciente      @relation(fields: [pacienteId], references: [id])
   dentista      Dentista      @relation(fields: [dentistaId], references: [id])
   tipo_consulta Tipo_consulta @relation(fields: [tipo_consultaId], references: [id])
-
+  Pagamento     Pagamentos[]
   data_criacao   DateTime @default(now())
   data_alteracao DateTime @updatedAt
+}
+
+model Pagamentos{
+  idPagemento     Int @id @default(autoincrement())
+  consultaId     Int
+  data            DateTime @default(now())
+  formaPagamento  String
+  valor           Float
+  status          String
+  consulta        Consulta @relation(fields: [consultaId], references: [id])
 }

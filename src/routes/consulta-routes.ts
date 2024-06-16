@@ -11,6 +11,9 @@ import { findConsultasFinalizadasController } from 'controller/consulta-controll
 import { exibirRelatorioConsultaFeitaController } from 'controller/consulta-controller/exibir-relatorio-consulta-feita-controller'
 import { atualizarStatusConsultaController } from 'controller/consulta-controller/atualizar-status-consulta-controller'
 import { findAllConsultsController } from 'controller/consulta-controller/find-all-consult-controller'
+import { FindPagamentoByPacientNameController } from 'controller/pagamentos-controller/Find-pagamento-by-pacient-name-controller'
+import { FindPagamentoByDataConsultController } from 'controller/pagamentos-controller/Find-pagamento-by-consult-data'
+import { FindAllPagamentoConstroller } from 'controller/pagamentos-controller/Find-all-pagamentos'
 
 const routes = Router()
 
@@ -22,6 +25,9 @@ routes.get('/consulta/:dentista_id/horas', findHorariosLivresController)
 routes.get('/consulta/:consulta_id/cancelar', cancelarConsultaController)
 routes.get('/consulta/consultas', findConsultaByEspecialistaOrDataController)
 routes.get('/consulta/:consulta_id', findConsultaByIdController)
+routes.get('/consulta/pagamento/:nome', FindPagamentoByPacientNameController)
+routes.get('/consulta/pagamentos/:num', FindAllPagamentoConstroller)
+routes.get('/consulta/pagamento/dataConsulta/:data', FindPagamentoByDataConsultController)
 routes.get('/consulta/funcionario/:id', findFuncionarioController)
 routes.get('/consulta/recepcionistas/:cargo',findRecepcionistaController)
 routes.get('/consulta/recepcionista/:id',FindRecepcionistaByIdController)

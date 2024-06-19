@@ -14,14 +14,14 @@ datasource db {
 }
 
 model Paciente {
-  id            Int    @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   nome          String
   sobreNome     String
   data_nasc     String
   sexo          String
   nacionalidade String
-  telefone      String @unique
-  email         String @unique
+  telefone      String     @unique
+  email         String     @unique
   endereco      String
   Usuario       Usuario[]
   Consulta      Consulta[]
@@ -40,11 +40,11 @@ model Usuario {
 }
 
 model Funcionario {
-  id       Int    @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   nome     String
   telefone String
   email    String
-  Usuario Usuario[]
+  Usuario  Usuario[]
 }
 
 model Dentista {
@@ -82,20 +82,21 @@ model Consulta {
   dentistaId      Int
   tipo_consultaId Int
 
-  paciente      Paciente      @relation(fields: [pacienteId], references: [id])
-  dentista      Dentista      @relation(fields: [dentistaId], references: [id])
-  tipo_consulta Tipo_consulta @relation(fields: [tipo_consultaId], references: [id])
-  Pagamento     Pagamentos[]
-  data_criacao   DateTime @default(now())
-  data_alteracao DateTime @updatedAt
+  paciente       Paciente      @relation(fields: [pacienteId], references: [id])
+  dentista       Dentista      @relation(fields: [dentistaId], references: [id])
+  tipo_consulta  Tipo_consulta @relation(fields: [tipo_consultaId], references: [id])
+  Pagamento      Pagamentos[]
+  data_criacao   DateTime      @default(now())
+  data_alteracao DateTime      @updatedAt
 }
 
-model Pagamentos{
-  idPagemento     Int @id @default(autoincrement())
-  consultaId     Int
-  data            DateTime @default(now())
-  formaPagamento  String
-  valor           Float
-  status          String
-  consulta        Consulta @relation(fields: [consultaId], references: [id])
+model Pagamentos {
+  idPagemento    Int      @id @default(autoincrement())
+  data           DateTime @default(now())
+  formaPagamento String
+  valor          Float
+  status         String
+
+  consultaId Int
+  consulta   Consulta @relation(fields: [consultaId], references: [id])
 }

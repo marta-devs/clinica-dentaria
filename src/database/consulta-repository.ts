@@ -102,6 +102,7 @@ export async function findConsultasByDentistaIdEDataEscolhidoRepository(
   dentista_id: number,
   dataEscolhido: string
 ) {
+
   const consultas = await prisma.consulta.findMany({
     where: {
       AND: [
@@ -116,7 +117,7 @@ export async function findConsultasByDentistaIdEDataEscolhidoRepository(
   return consultas
 }
 
-export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
+export async function findConsultaByUsuarioIdRepository(paciente_id: number, page: number = 0, limit: number = 30) {
   const consultas = await prisma.consulta.findMany({
     include: {
       dentista: true,
@@ -126,6 +127,8 @@ export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
     where: {
       pacienteId: paciente_id,
     },
+    skip: page,
+    take: limit,
   })
   return consultas
 }

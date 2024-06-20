@@ -9,8 +9,6 @@ export async function findHorariosLivresController(request: Request, response: R
   const dentista_id = Number(request.params.dentista_id)
   let dataEscolhido = request.query.data_escolhido?.toString()
 
-  const dataHoje = new Date().toISOString() //
-
   if (!dataEscolhido) {
     dataEscolhido = new Date().toISOString()
   }
@@ -25,7 +23,9 @@ export async function findHorariosLivresController(request: Request, response: R
     return response.status(401).json({ mensagem: 'Dentista não existe na base de dados' })
   }
 
-  const consultas = await findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id, dataEscolhido)
+  const dataConvertEmOutroFormato = moment(dataEscolhido).format('YYYY-MM-DD')
+
+  const consultas = await findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id, dataConvertEmOutroFormato)
 
   const { horasDisponiveis } = calcularHorasDisponiveis(dentista, consultas, dataEscolhido)
 

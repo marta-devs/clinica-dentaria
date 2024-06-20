@@ -1,5 +1,6 @@
 import { findTodasConsultasRepository } from "database/consulta-repository";
 import { Request, Response } from "express";
+import moment from "moment";
 import { convertHourMinutesToHourString } from "utils/convert-minutes-to-hour-string";
 
 export async function findConsultaByEspecialistaOrDataController(request: Request, response: Response) {
@@ -10,11 +11,13 @@ export async function findConsultaByEspecialistaOrDataController(request: Reques
 
     const consultas = await findTodasConsultasRepository(page, limit)
 
+    const dataConvertidaEmOutroFormato = moment(filtro).format('YYYY-MM-DD')
+
     const consultasFiltradas = consultas.filter(consulta =>
       consulta.dentista.nome.toLowerCase().startsWith(filtro?.toLowerCase())
-      || consulta.data_consulta.toLowerCase().startsWith(filtro.toLowerCase())
       || consulta.dentista.especialidade.toLowerCase().startsWith(filtro.toLowerCase())
       || consulta.paciente.nome.toLowerCase().startsWith(filtro.toLowerCase())
+      || consulta.data_consulta.startsWith(dataConvertidaEmOutroFormato)
     )
 
     const newConsultasFiltradas = consultasFiltradas.map(consulta => {
@@ -28,5 +31,4 @@ export async function findConsultaByEspecialistaOrDataController(request: Reques
   } catch (err) {
     return response.status(500).json({ mensagem: 'Ocorreu um erro interno' })
   }
-
 }

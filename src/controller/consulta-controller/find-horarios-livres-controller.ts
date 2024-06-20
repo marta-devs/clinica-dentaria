@@ -53,8 +53,6 @@ const calcularHorasDisponiveis = (dentista: any, consultas: any[], dataEscolhido
       horasDisponiveis.push(horaEmString)
 
       if (hoje && increment <= passouDoTempo) {
-        console.log('increment: ' + increment)
-        console.log('passou: ' + passouDoTempo)
         let horaEmString = convertHourMinutesToHourString(increment)
         horasDisponiveis = horasDisponiveis.filter((hora) => horaEmString !== hora)
       }

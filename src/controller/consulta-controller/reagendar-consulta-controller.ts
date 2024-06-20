@@ -1,6 +1,6 @@
 import {
   findConsultaByDataConsultaRepository,
-  findConsultaById,
+  findConsultaByIdRepository,
   updateConsultaRepository,
 } from 'database/consulta-repository'
 import { findDentistaByIdRepository } from 'database/dentista-respository'
@@ -9,6 +9,7 @@ import moment from 'moment'
 import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute'
 import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
+import { findConsultaByIdController } from './find-consulta-by-id-controller'
 
 const schema = z.object({
   id: z.number({ required_error: 'O Parametro id é obrigatório' }),
@@ -42,7 +43,7 @@ export async function reagendarConsultaController(
       return response.status(403).json({ mensagem: isValidate })
     }
 
-    const oldConsulta = await findConsultaById(dataConsulta.id)
+    const oldConsulta = await findConsultaByIdRepository(dataConsulta.id)
 
     if (!oldConsulta) {
       return response

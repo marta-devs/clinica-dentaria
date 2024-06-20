@@ -42,16 +42,18 @@ export async function addConsultaController(
       return response.status(403).json({ mensagem: isValidate })
     }
 
+    const dataFormatada = moment(dataConsulta.data_consulta).format('YYYY-MM-DD')
+
     const horaConsultaInFormatNumber = convertHourStringToMinute(
       dataConsulta.hora_consulta
     )
 
     const oldConsulta = await findConsultaByDataConsultaRepository(
-      dataConsulta.data_consulta,
+      dataFormatada,
       horaConsultaInFormatNumber
     )
 
-    if (!moment(dataConsulta.data_consulta).isSameOrAfter(new Date().toISOString(), 'day')) {
+    if (!moment(dataFormatada).isSameOrAfter(new Date().toISOString(), 'day')) {
       return response.status(401).json({ mensagem: 'Já não se pode fazer marcação de data passada' })
     }
 
@@ -88,7 +90,7 @@ export async function addConsultaController(
     }
 
     await addConsultaRepository({
-      data_consulta: dataConsulta.data_consulta,
+      data_consulta: dataFormatada,
       hora_consulta: horaConsultaInFormatNumber,
       dentistaId: dentista.id,
       pacienteId: usuario.pacienteId || 0,

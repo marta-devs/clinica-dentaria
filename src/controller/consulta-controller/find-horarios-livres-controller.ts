@@ -1,3 +1,4 @@
+import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute';
 import { convertHourMinutesToHourString } from 'utils/convert-minutes-to-hour-string';
 import { findConsultasByDentistaIdEDataEscolhidoRepository } from "database/consulta-repository"
 import { findDentistaByIdRepository } from "database/dentista-respository"
@@ -18,8 +19,6 @@ export async function findHorariosLivresController(request: Request, response: R
     return response.status(401).json({ mensagem: 'Não se pode agendar para uma data anterior' })
   }
 
-
-
   const dentista = await findDentistaByIdRepository(dentista_id)
 
   if (!dentista) {
@@ -28,32 +27,43 @@ export async function findHorariosLivresController(request: Request, response: R
 
   const consultas = await findConsultasByDentistaIdEDataEscolhidoRepository(dentista_id, dataEscolhido)
 
-  const { horasDiponiveis } = calcularHorasDisponiveis(dentista, consultas)
+  const { horasDisponiveis } = calcularHorasDisponiveis(dentista, consultas, dataEscolhido)
 
-  return response.json(horasDiponiveis)
+  return response.json(horasDisponiveis)
 }
 
 
-const calcularHorasDisponiveis = (dentista: any, consultas: any[]) => {
+const calcularHorasDisponiveis = (dentista: any, consultas: any[], dataEscolhido: any) => {
   const intervaloEntreAsHoras = 60 // 1hora
   let increment = dentista?.horaStart
 
-  const horasDiponiveis = [] as string[]
+  let horasDisponiveis = [] as string[]
 
   while (dentista?.horaEnd && increment && increment <= dentista?.horaEnd) {
 
-    const isAgendado = consultas.some(consulta => consulta?.hora_consulta === increment)
+    const consulta = consultas.find(consulta => consulta?.hora_consulta === increment)
 
-    if (!isAgendado) {
+    const hoje = moment(dataEscolhido).isSame(new Date().toISOString(), 'day')
+
+    const passouDoTempo = convertHourStringToMinute(moment(new Date().toISOString()).format('HH:MM'))
+
+    if (!consulta) {
+
       let horaEmString = convertHourMinutesToHourString(increment)
-      horasDiponiveis.push(horaEmString)
+      horasDisponiveis.push(horaEmString)
+
+      if (hoje && increment <= passouDoTempo) {
+        console.log('increment: ' + increment)
+        console.log('passou: ' + passouDoTempo)
+        let horaEmString = convertHourMinutesToHourString(increment)
+        horasDisponiveis = horasDisponiveis.filter((hora) => horaEmString !== hora)
+      }
     }
+
     increment = intervaloEntreAsHoras + increment
   }
 
   return {
-    horasDiponiveis
+    horasDisponiveis
   }
 }
-
-const convertInOtherFormat = () => new Intl.DateTimeFormat(['ban', 'id']).format(new Date()) 

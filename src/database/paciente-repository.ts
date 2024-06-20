@@ -1,4 +1,3 @@
-import { type Paciente } from '@prisma/client'
 import { prisma } from './connection'
 
 export async function addPacienteRepository(

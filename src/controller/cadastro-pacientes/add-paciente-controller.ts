@@ -55,6 +55,8 @@ async function AddPacienteController(request: Request, response: Response) {
       usuario.endereco,
       usuario.senha
     )
+
+    console.log(paciente)
     return response.json(paciente)
   } catch (error) {
     return response.status(500).json(error)

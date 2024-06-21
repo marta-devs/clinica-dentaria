@@ -9,6 +9,7 @@ import moment from 'moment'
 import { convertHourStringToMinute } from 'utils/convert-hour-string-to-minute'
 import { zodValidation } from 'utils/zodValidation'
 import z from 'zod'
+import { findConsultaByIdController } from './find-consulta-by-id-controller'
 
 const schema = z.object({
   id: z.number({ required_error: 'O Parametro id é obrigatório' }),
@@ -30,14 +31,20 @@ export async function reagendarConsultaController(
   const {data_consulta,tipo_consultaId,dentistaId, hora_consulta,id} = request.body
 
   try {
-    const data_consulta = request.body
-    const isValidate = zodValidation(schema, data_consulta)
+    const dataConsulta = request.body
+
+    const consulta = {
+      ...dataConsulta,
+      data_consulta: moment(dataConsulta.data_consulta).format('YYYY-MM-DD')
+    }
+
+    const isValidate = zodValidation(schema, consulta)
 
    /* if (isValidate) {
       return response.status(403).json({ mensagem: isValidate })
     }
 
-    const oldConsulta = await findConsultaByIdRepository(data_consulta.id)
+    const oldConsulta = await findConsultaByIdRepository(dataConsulta.id)
 
     if (!oldConsulta) {
       return response.status(401).json({ mensagem: 'Essa consulta nunca foi feita' })

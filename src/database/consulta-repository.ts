@@ -37,7 +37,7 @@ export async function findConsultaByDataConsultaRepository(
 export async function addConsultaRepository(param: AddConsultaParam) {
   await prisma.consulta.create({
     data: {
-      status: 'AGUANDADO',
+      status: 'AGENDADA',
       observado: param.observado,
       hora_consulta: param.hora_consulta,
       data_consulta: param.data_consulta,
@@ -84,7 +84,7 @@ export async function updateStatusParaCanceladoRepository(id: number) {
       id,
     },
     data: {
-      status: 'CANCELADO',
+      status: 'CANCELADA',
     },
   })
 }
@@ -104,16 +104,22 @@ export async function findConsultasByDentistaIdEDataEscolhidoRepository(
   dentista_id: number,
   dataEscolhido: string
 ) {
+
   const consultas = await prisma.consulta.findMany({
     where: {
-      AND: [{ dentistaId: dentista_id }, { data_consulta: dataEscolhido }],
+      AND: [
+        { dentistaId: dentista_id },
+        { data_consulta: dataEscolhido },
+        { status: 'AGENDADA' }
+      ],
+
     },
   })
 
   return consultas
 }
 
-export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
+export async function findConsultaByUsuarioIdRepository(paciente_id: number, page: number = 0, limit: number = 30) {
   const consultas = await prisma.consulta.findMany({
     include: {
       dentista: true,
@@ -123,6 +129,8 @@ export async function findConsultaByUsuarioIdRepository(paciente_id: number) {
     where: {
       pacienteId: paciente_id,
     },
+    skip: page,
+    take: limit,
   })
   return consultas
 }
@@ -154,20 +162,20 @@ export async function FindConsultasFinalizadasRepository(status:string) {
   })
   return consultasFinalizadas
 }
-export async function findAllConsultRepository(id:number) {
-   const consult = await prisma.consulta.findMany({
-    include:{
-      dentista:true,
-      paciente:true,
-      tipo_consulta:true,
-  
-    },  
-    orderBy:{
-      data_consulta:'asc'
+export async function findAllConsultRepository(id: number) {
+  const consult = await prisma.consulta.findMany({
+    include: {
+      dentista: true,
+      paciente: true,
+      tipo_consulta: true,
+
     },
-    where:{
-      pacienteId:id
+    orderBy: {
+      data_consulta: 'asc'
+    },
+    where: {
+      pacienteId: id
     }
-   })
-   return consult
+  })
+  return consult
 }

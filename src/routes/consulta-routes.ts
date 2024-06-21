@@ -14,6 +14,7 @@ import { findAllConsultsController } from 'controller/consulta-controller/find-a
 import { FindPagamentoByPacientNameController } from 'controller/pagamentos-controller/Find-pagamento-by-pacient-name-controller'
 import { FindPagamentoByDataConsultController } from 'controller/pagamentos-controller/Find-pagamento-by-consult-data'
 import { FindAllPagamentoConstroller } from 'controller/pagamentos-controller/Find-all-pagamentos'
+import { findPagamentoByStatus } from 'controller/pagamentos-controller/Find-pagamentos-by-status'
 
 const routes = Router()
 
@@ -27,11 +28,12 @@ routes.get('/consulta/consultas', findConsultaByEspecialistaOrDataController)
 routes.get('/consulta/:consulta_id', findConsultaByIdController)
 routes.get('/consulta/pagamento/:nome', FindPagamentoByPacientNameController)
 routes.get('/consulta/pagamentos/:num', FindAllPagamentoConstroller)
+routes.get('/consulta/pagamentos/status/:status', findPagamentoByStatus)
 routes.get('/consulta/pagamento/dataConsulta/:data', FindPagamentoByDataConsultController)
 routes.get('/consulta/funcionario/:id', findFuncionarioController)
 routes.get('/consulta/recepcionistas/:cargo',findRecepcionistaController)
 routes.get('/consulta/recepcionista/:id',FindRecepcionistaByIdController)
-routes.get('/consulta/finalizadas', findConsultasFinalizadasController)
+routes.get('/consulta/finalizadas/:status', findConsultasFinalizadasController)
 routes.get('/consulta/todas/:id',findAllConsultsController)
 routes.patch('/consulta/:consultaId', atualizarStatusConsultaController)
 

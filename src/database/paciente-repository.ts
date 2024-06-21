@@ -70,3 +70,46 @@ export async function findPacienteByIdRepository(id: number) {
 export async function findPacienteAllRepository() {
   return await prisma.dentista.findMany({})
 }
+
+export async function UpdatePacienteRepository(
+  id:number,
+  nome: string,
+  sobreNome: string,
+  dataNasc: string,
+  sexo: string,
+  nacionalidade: string,
+  telefone: string,
+  email: string,
+  endereco: string,
+  senha: string,
+  usuarioId:string
+) {
+  const paciente = await prisma.paciente.update({
+    where:{
+      id:id
+    },data: {
+      nome,
+      sobreNome,
+      data_nasc: dataNasc,
+      sexo,
+      nacionalidade,
+      telefone,
+      email,
+      endereco,
+      Usuario: {
+         update:{
+          where:{
+            id:usuarioId
+          }
+          ,data:{
+            login:email,
+            cargo:'PACIENTE',
+            senha:senha
+          }
+         }
+      },
+    },
+  })
+
+  return paciente
+}

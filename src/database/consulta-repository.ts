@@ -14,6 +14,7 @@ export interface UpdateConsultaParam {
   hora_consulta: number
   data_consulta: string
   dentistaId: number
+  tipo_consultaId:number
 }
 
 export async function findConsultaByDataConsultaRepository(
@@ -72,6 +73,7 @@ export async function updateConsultaRepository(param: UpdateConsultaParam) {
       data_consulta: param.data_consulta,
       dentistaId: param.dentistaId,
       status: 'AGENDADA',
+      tipo_consultaId:param.tipo_consultaId
     },
   })
 }
@@ -144,10 +146,10 @@ export async function findTodasConsultasRepository(
 
   return consultas
 }
-export async function FindConsultasFinalizadasRepository() {
+export async function FindConsultasFinalizadasRepository(status:string) {
   const consultasFinalizadas = prisma.consulta.findMany({
     where: {
-      status: 'Finalizada',
+      status:status,
     },
   })
   return consultasFinalizadas

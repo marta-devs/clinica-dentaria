@@ -81,4 +81,4 @@ Este projeto está sob a licença MIT [licença](#).
 
 ## 🎁 Expressões de gratidão
 
-Convidou Todas a gente que gostou desse projeto tanto nos aspeto de tecnologia ou a ideias do projeto para contribuir esse projeto afim de dar passo maior.
+Convido Todas a gente que gostou desse projeto tanto nos aspeto de tecnologia ou a ideias do projeto para contribuir esse projeto afim de dar passo maior.

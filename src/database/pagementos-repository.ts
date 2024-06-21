@@ -23,11 +23,12 @@ export async function pagamentoRepository(valor:number,forma:string,status:strin
 export async function FindPagementoByPacientName(nome:string){
 
   
-  const paciente = await prisma.pagamentos.findFirst({
+  const paciente = await prisma.pagamentos.findMany({
    include:{
     consulta:{
       include:{
-        paciente:true
+        paciente:true,
+        tipo_consulta:true
       }
     }
    },where:{
@@ -43,11 +44,12 @@ export async function FindPagementoByPacientName(nome:string){
 
 }
 export async function findPagamentoByConsultData(data:string) {
-  const pagamento = await prisma.pagamentos.findFirst({
+  const pagamento = await prisma.pagamentos.findMany({
    include:{
     consulta:{
       include:{
-        paciente:true
+        paciente:true,
+        tipo_consulta:true
       }
     }
    },where:{
@@ -78,4 +80,25 @@ export async function findAllPagamento(num:number){
   )
   return pagamento
   
+}
+
+export async function findPagamentoByStatusRepository(status:string){
+   const pagamento = await prisma.pagamentos.findMany({
+    include:{
+      consulta:{
+        include:{
+          paciente:true,
+          dentista:true,
+          tipo_consulta:true
+          }
+        }
+      },orderBy:{
+        data:'asc'
+      },where:{
+        status:status
+      }
+
+   })
+
+   return pagamento
 }

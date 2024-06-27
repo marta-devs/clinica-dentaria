@@ -1,6 +1,6 @@
 ![](/public/clinica-dentologica.png)
 
-<p align='center'>🚧A Barber-Shop(API) 🚀 Em construção... 🚧</p>
+<p align='center'>🚧 Sistema de Gestão e marcação de Consulata (Clínica Dentaria) 🚀 Em construção... 🚧</p>
 
 ## Descrição do projeto
 
